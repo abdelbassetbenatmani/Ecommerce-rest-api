@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail')
 const generateToken = require('../utils/generateToken')
 const apiError = require('../utils/apiError')
+const {sanitizeUser} = require('../utils/sanitizeData')
 const User = require('../models/user.model')
 
 
@@ -69,7 +70,7 @@ exports.signup = asyncHandler(async (req,res,next)=>{
         
         return next(new apiError(`There was a problem to send email`,500))
     }
-    res.status(201).json({data:user, token})
+    res.status(201).json({data:sanitizeUser(user), token})
 })
 
 exports.login = asyncHandler(async (req,res,next)=>{
@@ -82,7 +83,7 @@ exports.login = asyncHandler(async (req,res,next)=>{
         return next(new apiError('The user deactivite ,active your acount first',401))
     }
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
-    res.status(200).json({data:user, token})
+    res.status(200).json({data:sanitizeUser(user), token})
 })
 
 exports.protect = asyncHandler(async (req,res,next)=>{
