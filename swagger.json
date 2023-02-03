@@ -1,0 +1,1022 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Full Ecommerce REST API",
+    "description": "this is full ecommerce rest api with all features ",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "abdelbasset4real@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "__comment1__": "this is  comment",
+    "/api/v1/categories": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "get all existing categories",
+        "description": "get all existing categories",
+        "operationId": "getcategories",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "category not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Add a new Category to the store",
+        "description": "Add a new Category to the store",
+        "operationId": "addCategory",
+        "requestBody": {
+          "description": "Create a new Category in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/categories/{categoryId}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Find category by ID",
+        "description": "Returns a single category",
+        "operationId": "getCategoryById",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of category to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Updates a category in the store with form data",
+        "description": "",
+        "operationId": "updateCtegory",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of category that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a  Category by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/categories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Deletes a ctegory",
+        "description": "delete a category",
+        "operationId": "deleteCategory",
+        "parameters": [
+         
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "category id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
+          }
+        }
+        
+      }
+    },
+    "__comment__": "this is  comment",
+    "/api/v1/subcategories": {
+      "get": {
+        "tags": [
+          "Sub Categories"
+        ],
+        "summary": "get all existing sub categories",
+        "description": "get all existing sub categories",
+        "operationId": "getsubcategories",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "category not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Sub Categories"
+        ],
+        "summary": "Add a new subcategories to the store",
+        "description": "Add a new subcategories to the store",
+        "operationId": "addSubCategories",
+        "requestBody": {
+          "description": "Create a new subcategories in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/subcategories/{subcategorieId}": {
+      "get": {
+        "tags": [
+          "Sub Categories"
+        ],
+        "summary": "Find subcategorie by ID",
+        "description": "Returns a single subcategorie",
+        "operationId": "getSubcategoriesById",
+        "parameters": [
+          {
+            "name": "subcategorieId",
+            "in": "path",
+            "description": "ID of subcategories to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Sub Categories"
+        ],
+        "summary": "Updates a subcategorie in the store with form data",
+        "description": "",
+        "operationId": "updateSubCategories",
+        "parameters": [
+          {
+            "name": "subcategorieId",
+            "in": "path",
+            "description": "ID of subcategorie that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a  subcategorie by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Sub Categories"
+        ],
+        "summary": "Deletes a subcategorie",
+        "description": "delete a subcategorie",
+        "operationId": "deleteSubCategorie",
+        "parameters": [
+         
+          {
+            "name": "subcategorieId",
+            "in": "path",
+            "description": "subcategories id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
+          }
+        }
+        
+      }
+    },
+    "comment2" : "this is comment",
+    "/api/v1/brands": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "get all existing Brands",
+        "description": "get all existing Brands",
+        "operationId": "getBrands",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Brands not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Add a new Brands to the store",
+        "description": "Add a new Brands to the store",
+        "operationId": "addBrands",
+        "requestBody": {
+          "description": "Create a new Brands in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/brands/{brandId}": {
+      "get": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Find Brand by ID",
+        "description": "Returns a single brand",
+        "operationId": "getBrandById",
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "ID of brand to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/brands"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Updates a brand in the store with form data",
+        "description": "",
+        "operationId": "updatebrand",
+        "parameters": [
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "ID of brand that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a  Brand by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/brands"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Brands"
+        ],
+        "summary": "Deletes a brand",
+        "description": "delete a brand",
+        "operationId": "deleteBrand",
+        "parameters": [
+         
+          {
+            "name": "brandId",
+            "in": "path",
+            "description": "brand id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
+          }
+        }
+        
+      }
+    },
+    "comment3" : "this is comment",
+    "/api/v1/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "get all existing Products",
+        "description": "get all existing Products",
+        "operationId": "getProducts",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Products not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Add a new Product to the store",
+        "description": "Add a new Product to the store",
+        "operationId": "addBrands",
+        "requestBody": {
+          "description": "Create a new Product in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/products/{productId}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Find Product by ID",
+        "description": "Returns a single Product",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of Product to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/products"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Updates a Product in the store with form data",
+        "description": "",
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of Product that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a  Product by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Deletes a Product",
+        "description": "delete a Product",
+        "operationId": "deleteProduct",
+        "parameters": [
+         
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "Product id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid pet value"
+          }
+        }
+        
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "categories": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "example": "Phone"
+          },
+          "image": {
+            "type": "string",
+            "example": "phone.jpg"
+          }
+        }
+      },
+      "subcategories": {
+        "required": [
+          "name",
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "example": "charger"
+          },
+          "category": {
+            "type": "string",
+            "example": "63a4ab9da67ebf51ce031590"
+          }
+        }
+      },
+      "brands": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Apple"
+          }
+        }
+      },
+      "products": {
+        "required": [
+          "title",
+          "description",
+          "quantity",
+          "price",
+          "imageCover",
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "aplle 14 pro max"
+          },
+          "description": {
+            "type": "string",
+            "example": "last ihpne in 2023 this is ihpone 14 pro max"
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 20
+          },
+          "sold": {
+            "type": "integer",
+            "example":1000
+          },
+          "price": {
+            "type": "integer",
+            "example": 19.99
+          },
+          "priceAfterDiscount": {
+            "type": "integer",
+            "example": 10.99
+          },
+          "colors": {
+            "type": "array",
+            "example": "Red"
+          },
+          "imageCover": {
+            "type": "string",
+            "example": "cover.jpg"
+          },
+          "images": {
+            "type": "array",
+            "example": "1.jpg 2.jpg 3.jpg"
+
+          },
+          "category": {
+            "type": "string",
+            "example": "63a4ab9da67ebf51ce031590"
+          },
+          "subcategories": {
+            "type": "array",
+            "example": "63a4ab9da67ebf51ce031590"
+          },
+          "brand": {
+            "type": "string",
+            "example": "63a4ab9da67ebf51ce031590"
+          },
+          "ratingsAverage": {
+            "type": "integer",
+            "example": 4.5
+          },
+          "ratingsQuantity": {
+            "type": "integer",
+            "example": 100
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "categories": {
+        "description": "category object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/categories"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/categories"
+            }
+          }
+        }
+      },
+      "subcategories": {
+        "description": "subcategories object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/subcategories"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/subcategories"
+            }
+          }
+        }
+      },
+      "brands": {
+        "description": "Brands object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/brands"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/brands"
+            }
+          }
+        }
+      },
+      "products": {
+        "description": "Products object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/products"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/products"
+            }
+          }
+        }
+      }
+    }
+  }
+}
