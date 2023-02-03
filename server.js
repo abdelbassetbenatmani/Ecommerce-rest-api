@@ -7,6 +7,8 @@ const morgan = require('morgan')
 const swaggerUi = require('swagger-ui-express');
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean')
 
 dotenv.config({ path: "config.env" })
 const apiError = require('./utils/apiError')
@@ -15,7 +17,7 @@ const globalError = require('./Middleware/errorMiddleware')
 const swaggerDocument = require('./swagger.json');
 // Routes
 const mountRoutes = require('./routes')
-const {webhookCheckout} = require('./controllers/order.controller')
+// const {webhookCheckout} = require('./controllers/order.controller')
 //connection db 
 const dbConnection = require('./config/dbConnection')
 
@@ -51,6 +53,13 @@ app.use(limiter)
 
 // middleware to protect against HTTP Parameter Pollution attacks
 app.use(hpp({whitelist:['price','sold','quantity','ratingsAverage','ratingsQuantity']}));
+
+// To remove data using these defaults:
+app.use(mongoSanitize());
+
+/* make sure this comes before any routes */
+app.use(xss())
+
 // Middleware
 mountRoutes(app)
 
@@ -83,7 +92,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), (request, response
     switch (event.type) {
       case 'checkout.session.completed':
         // eslint-disable-next-line no-case-declarations
-        const checkoutSessionCompleted = event.data.object;
+        // const checkoutSessionCompleted = event.data.object;
         // Then define and call a function to handle the event checkout.session.completed
         break;
       // ... handle other event types
