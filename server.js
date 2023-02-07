@@ -19,7 +19,7 @@ const globalError = require('./Middleware/errorMiddleware')
 const swaggerDocument = require('./swagger.json');
 // Routes
 const mountRoutes = require('./routes')
-// const {webhookCheckout} = require('./controllers/order.controller')
+const {webhookCheckout} = require('./controllers/order.controller')
 //connection db 
 const dbConnection = require('./config/dbConnection')
 
