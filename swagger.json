@@ -834,6 +834,444 @@
         }
         
       }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Sign up user",
+        "description": "sign up with email and password",
+        "operationId": "Signup",
+        "requestBody": {
+          "description":  "sign up with email and password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/signup"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/signup"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/signup"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signup"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/signup"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "login for regirster user",
+        "description":"Login the system using email and password",
+        "operationId": "Login",
+        "requestBody": {
+          "description":  "Login the system using email and password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/login"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/login"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/resetPassword": {
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Reset user password ",
+        "description":"Reset user password ",
+        "operationId": "resetPassword",
+        "requestBody": {
+          "description":  "Reset user password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/resetPassword"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/resetPassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/resetPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/resetPassword"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/resetPassword"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/forgotPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Send email if user forgot password ",
+        "description":"Send email if user forgot password ",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "description":  "Send email if user forgot password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/forgotPassword"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/forgotPassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/forgotPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forgotPassword"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/forgotPassword"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/verifyResetCode": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Verify reset code that sending to user's email ",
+        "description":"Verify reset code that sending to user's email ",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "description":  "Verify reset code that sending to user's email ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyResetCode"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyResetCode"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyResetCode"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/verifyResetCode"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/verifyResetCode"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/virefied/{tokenLink}": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "sending link to user email if user forgot password",
+        "description":"sending link to user email if user forgot password",
+        "operationId": "virefied",
+        "requestBody": {
+          "description":  "Verify reset code that sending to user's email ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/virefiedLink"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/virefiedLink"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/virefiedLink"
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "name": "tokenLink",
+            "in": "path",
+            "description": "token to verify request for forgot password",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/virefiedLink"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/virefiedLink"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/activate": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Send Email to Cancel Deactivate Account",
+        "description":"Send Email to Cancel Deactivate Account ",
+        "operationId": "activate",
+        "requestBody": {
+          "description":  "Send Email to Cancel Deactivate Account ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/activate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/activate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/activate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/activate"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/activate"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/auth/activate/{token}": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "verify link and activate user account",
+        "description":"verify link and activate user account",
+        "operationId": "activate",
+        "requestBody": {
+          "description":  "verify link and activate user account ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/activatetoken"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/activatetoken"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/activatetoken"
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "token to activate user account",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/activatetoken"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/activatetoken"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
     }
   },
   "components": {
@@ -954,6 +1392,114 @@
             "example": 100
           }
         }
+      },
+      "signup": {
+        "required": [
+          "name",
+          "email",
+          "password",
+          "confirmPassword"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "example": "user1"
+          },
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "125866545"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "125866545"
+          }
+        }
+      },
+      "login": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "125866545"
+          }
+        }
+      },
+      "resetPassword": {
+        "required": [
+          "email",
+          "password",
+          "rePassword"
+        ],
+        "type": "object",
+        "properties": {
+
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "125866545"
+          },
+          "rePassword": {
+            "type": "string",
+            "example": "125866545"
+          }
+        }
+      },
+      "forgotPassword": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          }
+        }
+      },
+      "verifyResetCode": {
+        "required": [
+          "resetCode"
+        ],
+        "type": "object",
+        "properties": {
+
+          "resetCode": {
+            "type": "string",
+            "example": "154788"
+          }
+        }
+      },
+      "activate account": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -1013,6 +1559,126 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/products"
+            }
+          }
+        }
+      },
+      "signup": {
+        "description": "Signup object that needs to be create user to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/signup"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/signup"
+            }
+          }
+        }
+      },
+      "login": {
+        "description": "login object that needs to be login the  user to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/login"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/login"
+            }
+          }
+        }
+      },
+      "rePassword": {
+        "description": "Reset user password ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/rePassword"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/rePassword"
+            }
+          }
+        }
+      },
+      "forgotPassword": {
+        "description": "Forgot password ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/forgotPassword"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/forgotPassword"
+            }
+          }
+        }
+      },
+      "verifyResetCode": {
+        "description": "Verify reset code ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/verifyResetCode"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/verifyResetCode"
+            }
+          }
+        }
+      },
+      "virefiedLink": {
+        "description": "Verify link for forgot password ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/virefiedLink"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/virefiedLink"
+            }
+          }
+        }
+      },
+      "activate account": {
+        "description": "email for activate account ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/activate"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/activate"
+            }
+          }
+        }
+      },
+      "activate account link ": {
+        "description": "link for activate user account ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/activatetoken"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/activatetoken"
             }
           }
         }
