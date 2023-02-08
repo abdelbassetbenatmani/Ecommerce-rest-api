@@ -73,7 +73,7 @@ exports.updateLoggedUserPassword = asyncHandler(async (req, res,next) =>{
         passwordChangedAt:Date.now()
     }, { new: true })
 
-    const token = generateToken(user._id)
+    const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
     res.status(200).json({data:user,token})
 })
 

@@ -1280,7 +1280,7 @@
         ],
         "summary": "get all users (admin - manager)",
         "description": "get all existing users (admin - manager)",
-        "operationId": "getProducts",
+        "operationId": "getUsers",
        
         "responses": {
           "200": {
@@ -1517,6 +1517,197 @@
               "application/xml": {
                 "schema": {
                   "$ref": "#/components/schemas/changepassword"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/getMe":{
+      "get": {
+        "tags": [
+          "Logged user"
+        ],
+        "summary": "get logged user data",
+        "description": "get logged user data",
+        "operationId": "getUsers",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/changeMyPassword":{
+      "put": {
+        "tags": [
+          "Logged user"
+        ],
+        "summary": "Logged user can be change your password",
+        "description":"Logged user can be change your password",
+        "requestBody": {
+          "description":  "Logged user can be change your password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMyPassword"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMyPassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMyPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeMyPassword"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeMyPassword"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/changeMyData":{
+      "put": {
+        "tags": [
+          "Logged user"
+        ],
+        "summary": "Logged user can be change your data",
+        "description":"Logged user can be change your data",
+        "requestBody": {
+          "description":  "Logged user can be change your data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMydata"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMydata"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/changeMydata"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeMydata"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/changeMydata"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/deleteMe":{
+      "put": {
+        "tags": [
+          "Logged user"
+        ],
+        "summary": "Logged user can be delete your account",
+        "description":"Logged user can be delete your account",
+        "requestBody": {
+          "description":  "Logged user can be delete your account",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
                 }
               }
             }
@@ -1818,6 +2009,47 @@
             "example": "987654"
           }
         }
+      },
+      "changeMyPassword":{
+        "required": [
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+
+          "password": {
+            "type": "string",
+            "example": "987654"
+          }
+        }
+      },
+      "changeMydata":{
+        "required": [
+          "name",
+          "email",
+          "phone",
+          "profileImg"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "example": "admin1"
+          },
+          "email": {
+            "type": "string",
+            "example": "admin1@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "067488855574"
+          },
+          "profileImg": {
+            "type": "string",
+            "example": "user.png"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -2027,6 +2259,36 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/changepassword"
+            }
+          }
+        }
+      },
+      "changeMyPassword":{
+        "description": "change logged user password",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/changeMyPassword"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/changeMyPassword"
+            }
+          }
+        }
+      },
+      "changeMydata":{
+        "description": "change logged user data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/changeMydata"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/changeMydata"
             }
           }
         }
