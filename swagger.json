@@ -147,7 +147,7 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "category not found"
           }
         }
       },
@@ -217,7 +217,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid pet value"
+            "description": "Invalid category value"
           }
         }
         
@@ -351,7 +351,7 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "subcategory not found"
           }
         }
       },
@@ -421,7 +421,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid pet value"
+            "description": "Invalid subcategory value"
           }
         }
         
@@ -555,7 +555,7 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "brand not found"
           }
         }
       },
@@ -625,7 +625,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid pet value"
+            "description": "Invalid brand value"
           }
         }
         
@@ -759,7 +759,7 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "product not found"
           }
         }
       },
@@ -829,7 +829,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid pet value"
+            "description": "Invalid product value"
           }
         }
         
@@ -1272,6 +1272,261 @@
         }
         
       }
+    },
+    "/api/v1/users":{
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "get all users (admin - manager)",
+        "description": "get all existing users (admin - manager)",
+        "operationId": "getProducts",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user in the system (admin - manager) can be created",
+        "description":"Create user in the system (admin - manager) can be created",
+        "operationId": "createUser",
+        "requestBody": {
+          "description":  "Create user in the system (admin - manager) can be created",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get specific user (admin - manager)",
+        "description": "Get specific user by id (admin - manager)",
+        "operationId": "specificUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Updates a user (admin - manager) can be updated",
+        "description": "",
+        "operationId": "updateuser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of user that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a  user by id in the system",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Deletes a user (admin-manger)",
+        "description": "delete a user by id in the system (admin-manger)",
+        "operationId": "deleteProduct",
+        "parameters": [
+         
+          {
+            "name": "id",
+            "in": "path",
+            "description": "user id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid product value"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/users/changepassword/{id}":{
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "change user password",
+        "description":"change user password",
+        "operationId": "changePassword",
+        "requestBody": {
+          "description":  "change user password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changepassword"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/changepassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/changepassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changepassword"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/changepassword"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
     }
   },
   "components": {
@@ -1500,6 +1755,69 @@
             "example": "a@gmail.com"
           }
         }
+      },
+      "user": {
+        "required": [
+          "name",
+          "email",
+          "password",
+          "confirmPassword"
+        ],
+        "type": "object",
+        "properties": {
+
+          "name": {
+            "type": "string",
+            "example": "admin"
+          },
+          "email": {
+            "type": "string",
+            "example": "a@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "06748522558"
+          },
+          "profileImg": {
+            "type": "string",
+            "example": "user.png"
+          },
+          "password": {
+            "type": "string",
+            "example": "654315645"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "654315645"
+          },
+          "role": {
+            "type": "string",
+            "example": "user"
+          }
+        }
+      },
+      "changepassword":{
+        "required": [
+          "currentpassword",
+          "password",
+          "confirmPassword"
+        ],
+        "type": "object",
+        "properties": {
+
+          "currentpassword": {
+            "type": "string",
+            "example": "123456"
+          },
+          "password": {
+            "type": "string",
+            "example": "987654"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "987654"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -1679,6 +1997,36 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/activatetoken"
+            }
+          }
+        }
+      },
+      "user": {
+        "description": "create a user in the system ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/user"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/user"
+            }
+          }
+        }
+      },
+      "changepassword": {
+        "description": "change user password",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/changepassword"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/changepassword"
             }
           }
         }
