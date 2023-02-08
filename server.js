@@ -22,6 +22,8 @@ const mountRoutes = require('./routes')
 const {webhookCheckout} = require('./controllers/order.controller')
 //connection db 
 const dbConnection = require('./config/dbConnection')
+// logging config
+const logger = require('./config/logger')
 
 dbConnection();
 
@@ -88,16 +90,12 @@ const server = app.listen(PORT, () => {
 })
 process.on("unhandledRejection", (err) => {
     console.error(`unhandledRejection ${err.message} and ${err.name}`);
+    logger.error(`unhandledRejection ${err.message} and ${err.name}`)
     server.close(() => {
         console.error(`shut down ......`);
         process.exit(1);
     })
 })
-// Checkout webhook
-// app.post(
-//     '/webhook-checkout',
-//     express.raw({type: 'application/json'}),
-//     webhookCheckout
-// );
+
 
 module.exports = server
