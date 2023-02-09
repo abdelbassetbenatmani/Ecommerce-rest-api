@@ -2290,6 +2290,122 @@
         }
         
       }
+    },
+    "/api/v1/adresses":{
+      "get": {
+        "tags": [
+          "Adresses"
+        ],
+        "summary": "get Logged User adresses",
+        "description": "get Logged User adresses",
+        "operationId": "getAdress",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/adress"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/adress"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "adress not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Adresses"
+        ],
+        "summary": "add adress  to logged user",
+        "description": "add adress  to logged user",
+        "operationId": "addAdress",
+        "requestBody": {
+          "description": "add adress  to logged user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/adress"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/adress"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/adress"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/adress"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/adress"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/adresses/{adressId}":{
+      "delete": {
+        "tags": [
+          "Adresses"
+        ],
+        "summary": "Delete a logged user adresses",
+        "description": "Deletes a logged user adresses",
+        "operationId": "deleteAdress",
+        "parameters": [
+         
+          {
+            "name": "adressId",
+            "in": "path",
+            "description": "adress id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid adress value"
+          }
+        }
+        
+      }
     }
   },
   "components": {
@@ -2660,6 +2776,38 @@
             "example":"63a4ab9da67ebf51ce031590"
           }
         }
+      },
+      "adress": {
+        "required": [
+          "alias",
+          "details",
+          "phone",
+          "city",
+          "postalCode"
+        ],
+        "type": "object",
+        "properties": {
+          "alias": {
+            "type": "string",
+            "example": "Adress 1"
+          },
+          "details": {
+            "type": "string",
+            "example": "221b bekker street"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0673415455"
+          },
+          "city": {
+            "type": "string",
+            "example":"London"
+          },
+          "postalCode": {
+            "type": "string",
+            "example":"03000"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -2929,6 +3077,21 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/wishlist"
+            }
+          }
+        }
+      },
+      "adress": {
+        "description": "Adress object ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/adress"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/adress"
             }
           }
         }
