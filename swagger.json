@@ -2609,6 +2609,217 @@
         }
         
       }
+    },
+    "/api/v1/cart": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "get logged user cart ",
+        "description": "get logged user cart ",
+        "operationId": "getCart",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "cart not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "create cart item for logged user",
+        "description": "create cart item for logged user",
+        "operationId": "addCart",
+        "requestBody": {
+          "description": "create cart item for logged user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/cart"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Delete all item from logged user cart",
+        "description": "Delete all item from logged user cart",
+        "operationId": "deleteCart",
+        "responses": {
+          "400": {
+            "description": "Invalid cart value"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/cart/{cartId}": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "update quantity product in logged user cart",
+        "description": "",
+        "operationId": "updateQuantity",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "description": "ID of cart that needs to be update quantity",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update cart by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/cart"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Delete item from logged user cart",
+        "description": "Delete item from logged user cart",
+        "operationId": "deleteCart",
+        "parameters": [
+         
+          {
+            "name": "cartId",
+            "in": "path",
+            "description": "cart id to delete item",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid cart value"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/cart/applyCoupon":{
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "apply coupon for  logged user cart",
+        "description": "apply coupon for  logged user cart",
+        "operationId": "applyCoupon",
+        "requestBody": {
+          "description": "apply coupon for  logged user cart",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/applycoupon"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/applycoupon"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/applycoupon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3033,6 +3244,35 @@
             "example": 10
           }
         }
+      },
+      "cart": {
+        "required": [
+          "productId",
+          "color"
+        ],
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "example": "63a4ab9da67ebf51ce031590"
+          },
+          "color": {
+            "type": "string",
+            "example": "red"
+          }
+        }
+      },
+      "applycoupon":{
+        "required": [
+          "coupon"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "coupon 1"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -3332,6 +3572,36 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/coupons"
+            }
+          }
+        }
+      },
+      "cart":{
+        "description": "coupon to get discount for cart",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cart"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/cart"
+            }
+          }
+        }
+      },
+      "applycoupon": {
+        "description": "coupon to get discount for cart",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/applycoupon"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/applycoupon"
             }
           }
         }
