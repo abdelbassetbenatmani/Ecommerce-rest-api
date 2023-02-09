@@ -427,6 +427,104 @@
         
       }
     },
+    "/api/v1/categories/{categoryId}/subcategories": {
+      "get": {
+        "tags": [
+          "Category/SubCategory"
+        ],
+        "summary": "get all list of sub categories in specific category",
+        "description": "get all list of sub categories in specific category",
+        "operationId": "getsubcategories",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of category that needs to get all sub categories",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Products not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Category/SubCategory"
+        ],
+        "summary": "create sub category from main category",
+        "description": "create sub category from main category",
+        "operationId": "addSubCategories",
+        "requestBody": {
+          "description": "create sub category from main category",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/subcategories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/subcategories"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
     "comment2" : "this is comment",
     "/api/v1/brands": {
       "get": {
@@ -675,7 +773,7 @@
         ],
         "summary": "Add a new Product to the store",
         "description": "Add a new Product to the store",
-        "operationId": "addBrands",
+        "operationId": "addProducts",
         "requestBody": {
           "description": "Create a new Product in the store",
           "content": {
@@ -1718,6 +1816,364 @@
         }
         
       }
+    },
+    "/api/v1/reviews": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "get all reviews ",
+        "description": "get all reviews ",
+        "operationId": "getReviews",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Products not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Add a new review to the product",
+        "description": "Add a new review to the product",
+        "operationId": "addReviews",
+        "requestBody": {
+          "description": "Create a new review in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/reviews/{id}": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Find review by ID",
+        "description": "Returns a single reviews",
+        "operationId": "getReviewById",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "ID of review to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "product not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Updates a review in the store with form data",
+        "description": "",
+        "operationId": "updateReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "ID of review that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a reviews by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Deletes a review",
+        "description": "delete a review",
+        "operationId": "deleteReview",
+        "parameters": [
+         
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "review id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid product value"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/products/{productId}/reviews": {
+      "get": {
+        "tags": [
+          "Product/Reviews"
+        ],
+        "summary": "get all reviews on specific product",
+        "description": "get all reviews on specific product",
+        "operationId": "getReviews",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of product that needs to get all reviews",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Products not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Product/Reviews"
+        ],
+        "summary": "create review on specific product",
+        "description": "create review on specific product",
+        "operationId": "addReviews",
+        "requestBody": {
+          "description": "create review on specific product",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/reviews"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/products/{productId}/reviews/{reviewId}": {
+      "get": {
+        "tags": [
+          "Product/Reviews"
+        ],
+        "summary": "get specific reviews on specific product",
+        "description": "get specific review on specific product",
+        "operationId": "getReviews",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of product that needs to get specific review",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "ID of product that needs to get specific review",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/reviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Products not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      }
     }
   },
   "components": {
@@ -2050,6 +2506,32 @@
             "example": "user.png"
           }
         }
+      },
+      "reviews": {
+        "required": [
+          "rating",
+          "user",
+          "product"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "product is amazing"
+          },
+          "rating": {
+            "type": "float",
+            "example": 4.8
+          },
+          "user": {
+            "type": "string",
+            "example": "63a4ab9da67ebf51ce031590"
+          },
+          "product": {
+            "type": "string",
+            "example":"63a4ab9da67ebf51ce031590"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -2289,6 +2771,21 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/changeMydata"
+            }
+          }
+        }
+      },
+      "reviews": {
+        "description": "Reviews object that needs to be added to the product",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/reviews"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/reviews"
             }
           }
         }
