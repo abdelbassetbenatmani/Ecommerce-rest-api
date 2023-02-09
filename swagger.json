@@ -1568,7 +1568,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid product value"
+            "description": "Invalid user value"
           }
         }
         
@@ -1944,7 +1944,7 @@
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "product not found"
+            "description": "review not found"
           }
         }
       },
@@ -2014,7 +2014,7 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid product value"
+            "description": "Invalid review value"
           }
         }
         
@@ -2170,6 +2170,122 @@
           },
           "405": {
             "description": "Validation exception"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/wishlist":{
+      "get": {
+        "tags": [
+          "Wishlist"
+        ],
+        "summary": "get Logged User product wishlist",
+        "description": "get Logged User product wishlist ",
+        "operationId": "getWishlist",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlist"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlist"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "wishlist not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Wishlist"
+        ],
+        "summary": "add product to wishlist",
+        "description": "add product to wishlist",
+        "operationId": "addWishlist",
+        "requestBody": {
+          "description": "add product to wishlist",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/wishlist"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/wishlist"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/wishlist"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlist"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/wishlist"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/wishlist/{wishlistId}":{
+      "delete": {
+        "tags": [
+          "Wishlist"
+        ],
+        "summary": "Delete a logged user wishlist",
+        "description": "Deletes a logged user wishlist",
+        "operationId": "deleteWishlist",
+        "parameters": [
+         
+          {
+            "name": "wishlistId",
+            "in": "path",
+            "description": "wishlist id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid wishlist value"
           }
         }
         
@@ -2532,6 +2648,18 @@
             "example":"63a4ab9da67ebf51ce031590"
           }
         }
+      },
+      "wishlist": {
+        "required": [
+          "product"
+        ],
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string",
+            "example":"63a4ab9da67ebf51ce031590"
+          }
+        }
       }
     },
     "requestBodies": {
@@ -2786,6 +2914,21 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/reviews"
+            }
+          }
+        }
+      },
+      "wishlist": {
+        "description": "wishlist for logged user",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/wishlist"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/wishlist"
             }
           }
         }
