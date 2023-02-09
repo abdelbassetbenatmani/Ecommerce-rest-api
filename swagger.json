@@ -3592,7 +3592,7 @@
         }
       },
       "applycoupon": {
-        "description": "coupon to get discount for cart",
+        "description": "apply coupon to get discount for logged user cart",
         "content": {
           "application/json": {
             "schema": {
