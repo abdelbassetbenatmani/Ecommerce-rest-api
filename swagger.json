@@ -2406,6 +2406,209 @@
         }
         
       }
+    },
+    "/api/v1/coupons": {
+      "get": {
+        "tags": [
+          "Coupons"
+        ],
+        "summary": "get all coupons ",
+        "description": "get all coupons ",
+        "operationId": "getCoupons",
+       
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "coupons not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+        
+      },
+      "post": {
+        "tags": [
+          "Coupons"
+        ],
+        "summary": "Add a new coupon to the system",
+        "description": "Add a new coupon to the system",
+        "operationId": "addCoupon",
+        "requestBody": {
+          "description": "Add a new coupon to the system",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+        
+      }
+    },
+    "/api/v1/coupons/{couponId}": {
+      "get": {
+        "tags": [
+          "Coupons"
+        ],
+        "summary": "Find coupon  by ID",
+        "description": "Returns a single coupon",
+        "operationId": "getCouponById",
+        "parameters": [
+          {
+            "name": "couponId",
+            "in": "path",
+            "description": "ID of coupon to return",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/coupons"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "coupon not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Coupons"
+        ],
+        "summary": "Updates a coupon in the store with form data",
+        "description": "",
+        "operationId": "updateCoupon",
+        "parameters": [
+          {
+            "name": "couponId",
+            "in": "path",
+            "description": "ID of coupon that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "update a coupon by id in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/coupons"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Coupons"
+        ],
+        "summary": "Delete a coupon",
+        "description": "delete a coupon",
+        "operationId": "deleteReview",
+        "parameters": [
+         
+          {
+            "name": "couponId",
+            "in": "path",
+            "description": "coupon id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid coupon value"
+          }
+        }
+        
+      }
     }
   },
   "components": {
@@ -2808,6 +3011,28 @@
             "example":"03000"
           }
         }
+      },
+      "coupons": {
+        "required": [
+          "name",
+          "expire",
+          "discount"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "coupon 1"
+          },
+          "expire": {
+            "type": "date",
+            "example": "01/01/2024"
+          },
+          "discount": {
+            "type": "float",
+            "example": 10
+          }
+        }
       }
     },
     "requestBodies": {
@@ -3092,6 +3317,21 @@
           "application/xml": {
             "schema": {
               "$ref": "#/components/schemas/adress"
+            }
+          }
+        }
+      },
+      "coupons": {
+        "description": "coupon to get discount for cart",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/coupons"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/coupons"
             }
           }
         }
