@@ -2,6 +2,7 @@ const sharp = require('sharp');
 const { v4: uuidv4 } = require('uuid');
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs');
+const exceljs = require('exceljs');
 
 const factory = require('./handelersFactory');
 const {uploadSingleImage}= require('../Middleware/uploadImageMiddleware')
@@ -97,5 +98,50 @@ exports.deleteLoggedUser = asyncHandler(async (req, res,next) =>{
     res.status(204).json({status:'success'})
 })
 
+exports.exportUserData = asyncHandler(async (req, res,next) =>{
+    const workbook = new exceljs.Workbook();
+    const worksheet = workbook.addWorksheet('Users');
+    worksheet.columns = [
+        {headers:"id",key:"_id"},
+        {headers:"name",key:"name"},
+        {headers:"email",key:"email"},
+        {headers:"phone",key:"phone"},
+        {headers:"profileImg",key:"profileImg"},
+        {headers:"role",key:"role"},
+    ];
+    let count = 1;
+
+    const users = await User.find({});
+    if(!users){
+        return next(new apiError('User not found',404)) 
+    }
+    users.forEach((user)=>{
+        user.s_no = count;
+        worksheet.addRow(user)
+        // eslint-disable-next-line no-plusplus
+        count ++;
+    })
+    worksheet.getRow(1).eachCell((cell)=>{
+        cell.font = {bold:true}
+    })
+    res.setHeader("Content-Type","application/vnd.openxmlformats-officedocument.spreadsheatml.sheet")
+    res.setHeader("Content-Disposition","attachment; filename=users.xlsx");
+    // return workbook.xlsx.write(res).then(()=>{
+    //     request.status(200)
+    // })
+// save workbook to disk
+workbook
+  .xlsx
+  .writeFile('users.xlsx')
+  .then(() => {
+    console.log("saved");
+    res.download("users.xlsx",()=> {
+        console.log("download");
+    })
+  })
+  .catch((err) => {
+    console.log("err", err);
+  });
+})
 
 
