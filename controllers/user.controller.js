@@ -102,12 +102,11 @@ exports.exportUserData = asyncHandler(async (req, res,next) =>{
     const workbook = new exceljs.Workbook();
     const worksheet = workbook.addWorksheet('Users');
     worksheet.columns = [
-        {headers:"id",key:"_id"},
-        {headers:"name",key:"name"},
-        {headers:"email",key:"email"},
-        {headers:"phone",key:"phone"},
-        {headers:"profileImg",key:"profileImg"},
-        {headers:"role",key:"role"},
+        {header:"id",key:"_id" , width:100},
+        {header:"name",key:"name",width:200},
+        {header:"email",key:"email",width:400},
+        {header:"phone",key:"phone",width:200},
+        {header:"role",key:"role" ,width:100},
     ];
     let count = 1;
 
@@ -124,24 +123,20 @@ exports.exportUserData = asyncHandler(async (req, res,next) =>{
     worksheet.getRow(1).eachCell((cell)=>{
         cell.font = {bold:true}
     })
-    res.setHeader("Content-Type","application/vnd.openxmlformats-officedocument.spreadsheatml.sheet")
-    res.setHeader("Content-Disposition","attachment; filename=users.xlsx");
-    // return workbook.xlsx.write(res).then(()=>{
-    //     request.status(200)
-    // })
-// save workbook to disk
-workbook
-  .xlsx
-  .writeFile('users.xlsx')
-  .then(() => {
-    console.log("saved");
-    res.download("users.xlsx",()=> {
-        console.log("download");
+
+    // save workbook to disk
+    workbook
+    .xlsx
+    .writeFile('users.xlsx')
+    .then(() => {
+        console.log("saved");
+        res.download("users.xlsx",()=> {
+            console.log("download");
+        })
     })
-  })
-  .catch((err) => {
-    console.log("err", err);
-  });
+    .catch((err) => {
+        console.log("err", err);
+    });
 })
 
 
