@@ -2,12 +2,15 @@ const express = require('express')
 
 const route = express.Router()
 const { signupValidator,loginValidator} = require('../utils/validator/authValidator')
-const {signup,login ,forgotPassword,verifyPassResetCode,resetPassword,activateAccount,sendEmailToActivateAccount,activateUserAccount} = require('../controllers/auth.controller')
+const {signup,login ,refreshAccesToken,forgotPassword,verifyPassResetCode,resetPassword,activateAccount,sendEmailToActivateAccount,activateUserAccount} = require('../controllers/auth.controller')
 
 route.route('/signup')
      .post(signupValidator,signup)
 route.route('/login')
      .post(loginValidator,login)
+
+route.route('/refresh-token')
+     .post(refreshAccesToken)
 
 route.route('/forgotPassword')
      .post(forgotPassword)

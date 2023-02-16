@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const sendEmail = require('../utils/sendEmail')
-const generateToken = require('../utils/generateToken')
+const {generateToken,generateRefreshToken} = require('../utils/generateToken')
 const apiError = require('../utils/apiError')
 const {sanitizeUser} = require('../utils/sanitizeData')
 const User = require('../models/user.model')
@@ -27,6 +27,7 @@ exports.signup = asyncHandler(async (req,res,next)=>{
         password: req.body.password
     })
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
+    const refreshToken = generateRefreshToken(user._id)
 
     const message = `Hi ${user.name}, There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please copy this reset code to change your password:` ;
     const htmlCode = `<html><head><title>Verify your Account</title></head><body><h2 style='text-align:center;color:red;font-family:Sans-serif'>Hi ${user.name}</h2>
@@ -70,7 +71,7 @@ exports.signup = asyncHandler(async (req,res,next)=>{
         
         return next(new apiError(`There was a problem to send email`,500))
     }
-    res.status(201).json({data:sanitizeUser(user), token})
+    res.status(201).json({data:sanitizeUser(user), token,refreshToken})
 })
 
 exports.login = asyncHandler(async (req,res,next)=>{
@@ -83,8 +84,23 @@ exports.login = asyncHandler(async (req,res,next)=>{
         return next(new apiError('The user deactivite ,active your acount first',401))
     }
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
-    res.status(200).json({data:sanitizeUser(user), token})
+    const refreshToken = generateRefreshToken(user._id)
+    res.status(200).json({data:sanitizeUser(user), token,refreshToken})
 })
+
+exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
+    const {refresh} = req.body;
+    if(!refresh){
+        return next(new apiError('there are not refresh token',404))
+    }
+    const decoded = jwt.verify(refresh,process.env.JWT_REFRESH_SECRET)
+    if(!decoded){
+        return next(new apiError('refresh token invalid',401))
+    }
+    const token = generateToken(decoded.userId,process.env.JWT_EXPIRATION_LOGIN)
+    const refreshToken = generateRefreshToken(decoded.userId)
+    res.status(201).json({token,refreshToken})
+});
 
 exports.protect = asyncHandler(async (req,res,next)=>{
     // check token exist 
@@ -96,7 +112,6 @@ exports.protect = asyncHandler(async (req,res,next)=>{
     }    
     // verify token
     const decoded = jwt.verify(token,process.env.JWT_SECRET)
-    console.log(decoded);
     if(!decoded){
         return next(new apiError('token invalid',401))
     }
@@ -243,7 +258,8 @@ exports.resetPassword = asyncHandler(async (req,res,next)=>{
 
     await user.save();
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
-    res.status(200).json({token})
+    const refreshToken = generateRefreshToken(user._id)
+    res.status(200).json({token,refreshToken})
 
 
 })
