@@ -26,9 +26,7 @@ const dbConnection = require('./config/dbConnection')
 const logger = require('./config/logger')
 
 dbConnection();
-
 const app = express();
-
 app.use(express.json({limit:"20kb"}));
 app.use(express.static(path.join(__dirname,'uploads')))
 // allowed other domain acces api
@@ -69,7 +67,6 @@ app.use(helmet());
 
 // Middleware
 mountRoutes(app)
-
 app.all('*', (req, res, next) => {
     // eslint-disable-next-line new-cap
     next(new apiError(`Can't find this route ${req.originalUrl}`,400))

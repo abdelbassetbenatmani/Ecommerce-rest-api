@@ -1,3 +1,7 @@
 {"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-02-09T19:24:07.978Z"}
 {"level":"error","message":"check connection db connect ETIMEDOUT 13.37.147.229:27017","timestamp":"2023-02-10T14:59:56.275Z"}
 {"level":"error","message":"check connection db connect ETIMEDOUT 13.37.147.229:27017","timestamp":"2023-02-10T18:56:50.251Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-17T16:30:29.229Z"}
+{"level":"error","message":"unhandledRejection WRONGTYPE Operation against a key holding the wrong kind of value and Error","timestamp":"2023-02-17T16:42:10.633Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-17T17:27:01.661Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-17T17:30:09.876Z"}

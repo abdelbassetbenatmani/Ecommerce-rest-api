@@ -3,13 +3,21 @@ const crypto = require('crypto')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const redis = require('redis');
 
 const sendEmail = require('../utils/sendEmail')
 const {generateToken,generateRefreshToken} = require('../utils/generateToken')
 const apiError = require('../utils/apiError')
 const {sanitizeUser} = require('../utils/sanitizeData')
+// const {client} = require('../utils/redis-db')
 const User = require('../models/user.model')
 
+const client = redis.createClient();
+client.on('error', err => console.log('Redis Client Error', err));
+const setRedisToken = async (userId,token,expire)=>{
+    await client.connect();
+    await client.SET(userId,token,{'EX':expire})
+}
 
 const tokenExiste = (auth)=>{
     if(auth && auth.startsWith('Bearer')){
@@ -28,7 +36,7 @@ exports.signup = asyncHandler(async (req,res,next)=>{
     })
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
     const refreshToken = generateRefreshToken(user._id)
-
+    setRedisToken(user._id.toString(),refreshToken,365*24*60*60)
     const message = `Hi ${user.name}, There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please copy this reset code to change your password:` ;
     const htmlCode = `<html><head><title>Verify your Account</title></head><body><h2 style='text-align:center;color:red;font-family:Sans-serif'>Hi ${user.name}</h2>
     <p style='text-align:center;color:black;font-family:Sans-serif;line-height:1.5'>You registered an account on [customer portal], before being able to use your account you need to verify that this is your email address by clicking here:</p>
@@ -85,6 +93,9 @@ exports.login = asyncHandler(async (req,res,next)=>{
     }
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
     const refreshToken = generateRefreshToken(user._id)
+    // await client.connect();
+    // await client.SET(user._id.toString(),refreshToken,{'EX':365*24*60*60})
+    setRedisToken(user._id.toString(),refreshToken,365*24*60*60)
     res.status(200).json({data:sanitizeUser(user), token,refreshToken})
 })
 
@@ -96,6 +107,11 @@ exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
     const decoded = jwt.verify(refresh,process.env.JWT_REFRESH_SECRET)
     if(!decoded){
         return next(new apiError('refresh token invalid',401))
+    }
+    await client.connect();
+    const value =  await client.get(decoded.userId.toString());
+    if(value !== refresh){
+        return next(new apiError('refresh token not the same',401))
     }
     const token = generateToken(decoded.userId,process.env.JWT_EXPIRATION_LOGIN)
     const refreshToken = generateRefreshToken(decoded.userId)
@@ -115,6 +131,7 @@ exports.protect = asyncHandler(async (req,res,next)=>{
     if(!decoded){
         return next(new apiError('token invalid',401))
     }
+
     // check user with userId is existe
     const currentUser = await User.findById(decoded.userId);
     if(!currentUser){
