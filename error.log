@@ -5,3 +5,18 @@
 {"level":"error","message":"unhandledRejection WRONGTYPE Operation against a key holding the wrong kind of value and Error","timestamp":"2023-02-17T16:42:10.633Z"}
 {"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-17T17:27:01.661Z"}
 {"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-17T17:30:09.876Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-19T17:01:08.117Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-19T17:01:44.628Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-19T17:04:01.714Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-19T17:04:03.912Z"}
+{"level":"error","message":"unhandledRejection Socket already opened and Error","timestamp":"2023-02-19T17:04:05.240Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:05:20.939Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:09:03.445Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:09:06.367Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:09:08.076Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:09:10.543Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:11:38.350Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:12:15.052Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:12:32.253Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:13:00.739Z"}
+{"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:13:04.247Z"}

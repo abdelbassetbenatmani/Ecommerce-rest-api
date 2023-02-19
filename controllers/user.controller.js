@@ -3,13 +3,25 @@ const { v4: uuidv4 } = require('uuid');
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs');
 const exceljs = require('exceljs');
+const redis = require('redis');
 
 const factory = require('./handelersFactory');
 const {uploadSingleImage}= require('../Middleware/uploadImageMiddleware')
 const apiError = require('../utils/apiError')
-const generateToken = require('../utils/generateToken')
+const {generateToken,generateRefreshToken} = require('../utils/generateToken')
 
 const User = require('../models/user.model')
+
+const client = redis.createClient({port:6379,host:"127.0.0.1"});
+
+(async () => {
+    await client.connect();
+    console.log('client connected');
+})();
+
+const setRedisToken = async (userId,token,expire)=>{
+    await client.SET(userId,token,{'EX':expire})
+}
 
 module.exports.updoadUserFile = uploadSingleImage('profileImg')
 
@@ -75,7 +87,9 @@ exports.updateLoggedUserPassword = asyncHandler(async (req, res,next) =>{
     }, { new: true })
 
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
-    res.status(200).json({data:user,token})
+    const refreshToken = generateRefreshToken(user._id)
+    setRedisToken(user._id.toString(),refreshToken,365*24*60*60)
+    res.status(200).json({data:user,token,refreshToken})
 })
 
 exports.updateLoggedUserData = asyncHandler(async (req, res,next) =>{
