@@ -12,10 +12,13 @@ const {sanitizeUser} = require('../utils/sanitizeData')
 // const {client} = require('../utils/redis-db')
 const User = require('../models/user.model')
 
-const client = redis.createClient();
-client.on('error', err => console.log('Redis Client Error', err));
-const setRedisToken = async (userId,token,expire)=>{
+const client = redis.createClient({port:6379,host:"127.0.0.1"});
+
+(async () => {
     await client.connect();
+    console.log('client connected');
+})();
+const setRedisToken = async (userId,token,expire)=>{
     await client.SET(userId,token,{'EX':expire})
 }
 
@@ -93,8 +96,6 @@ exports.login = asyncHandler(async (req,res,next)=>{
     }
     const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
     const refreshToken = generateRefreshToken(user._id)
-    // await client.connect();
-    // await client.SET(user._id.toString(),refreshToken,{'EX':365*24*60*60})
     setRedisToken(user._id.toString(),refreshToken,365*24*60*60)
     res.status(200).json({data:sanitizeUser(user), token,refreshToken})
 })
@@ -108,13 +109,17 @@ exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
     if(!decoded){
         return next(new apiError('refresh token invalid',401))
     }
-    await client.connect();
     const value =  await client.get(decoded.userId.toString());
+    if(value === null){
+        return next(new apiError('refresh token is not the store',401))
+    }
     if(value !== refresh){
         return next(new apiError('refresh token not the same',401))
     }
     const token = generateToken(decoded.userId,process.env.JWT_EXPIRATION_LOGIN)
     const refreshToken = generateRefreshToken(decoded.userId)
+    setRedisToken(decoded.userId,refreshToken,365*24*60*60)
+
     res.status(201).json({token,refreshToken})
 });
 
