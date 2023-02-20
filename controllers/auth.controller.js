@@ -100,6 +100,18 @@ exports.login = asyncHandler(async (req,res,next)=>{
     res.status(200).json({data:sanitizeUser(user), token,refreshToken})
 })
 
+exports.logout = asyncHandler(async (req,res,next)=>{
+    const {refresh} = req.body;
+    if(!refresh){
+        return next(new apiError('there are not refresh token',404))
+    }
+    const decoded = jwt.verify(refresh,process.env.JWT_REFRESH_SECRET)
+    if(!decoded){
+        return next(new apiError('refresh token invalid',401))
+    }
+    await client.del(decoded.userId.toString())
+    res.status(201).json({message:"user logged out"})
+})
 exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
     const {refresh} = req.body;
     if(!refresh){
