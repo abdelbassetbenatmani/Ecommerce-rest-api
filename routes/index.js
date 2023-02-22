@@ -28,6 +28,9 @@ const mountRoutes = (app)=>{
     app.use('/api/v1/subcategories',subCategoryRoute)
     app.use('/api/v1/users',userRoute)
     app.use('/api/v1/auth',authRoute)
+    app.use('/',(req,res,next)=>{
+        res.render('index')
+    })
 }
 
 module.exports = mountRoutes
