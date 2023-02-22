@@ -1,8 +1,22 @@
 const express = require('express')
+const passport = require('passport')
 
 const route = express.Router()
 const { signupValidator,loginValidator} = require('../utils/validator/authValidator')
 const {signup,login ,refreshAccesToken,logout,forgotPassword,verifyPassResetCode,resetPassword,activateAccount,sendEmailToActivateAccount,activateUserAccount} = require('../controllers/auth.controller')
+
+// Google Routes
+route.get('/google', passport.authenticate('google', {
+     scope: ['profile', 'email']
+   }))
+
+route.get(
+     '/google/callback',
+     passport.authenticate('google', { failureRedirect: '/' }),
+     (req, res) => {
+       res.redirect('/dashboard')
+     }
+   )
 
 route.route('/signup')
      .post(signupValidator,signup)

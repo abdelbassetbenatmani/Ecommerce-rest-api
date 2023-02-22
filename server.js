@@ -8,8 +8,10 @@ const swaggerUi = require('swagger-ui-express');
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean')
+const xss = require('xss-clean');
 const helmet = require("helmet");
+const passport = require('passport');
+const session = require('express-session')
 
 
 dotenv.config({ path: "config.env" })
@@ -24,16 +26,32 @@ const {webhookCheckout} = require('./controllers/order.controller')
 const dbConnection = require('./config/dbConnection')
 // logging config
 const logger = require('./config/logger')
+// Passport Config
+require('./config/passport')(passport)
 
 dbConnection();
+
+
 const app = express();
 app.use(express.json({limit:"20kb"}));
 app.use(express.static(path.join(__dirname,'uploads')))
+app.use(express.static(path.join(__dirname,'public')))
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+}))
+app.use(passport.initialize())
+app.use(passport.session());
+
 // allowed other domain acces api
 app.use(cors())
 app.options('*', cors())
 // compress response
 app.options(compression())
+
+app.set('view engine', 'ejs');
+app.set('views','views')
 
 
 
