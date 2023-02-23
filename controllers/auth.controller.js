@@ -3,24 +3,15 @@ const crypto = require('crypto')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
 
 const sendEmail = require('../utils/sendEmail')
 const {generateToken,generateRefreshToken} = require('../utils/generateToken')
 const apiError = require('../utils/apiError')
 const {sanitizeUser} = require('../utils/sanitizeData')
-// const {client} = require('../utils/redis-db')
 const User = require('../models/user.model')
+const {setRedisToken,getRedisToken,deleteRedisToken} = require('../config/redis')
 
-const client = redis.createClient({port:6379,host:"127.0.0.1"});
 
-(async () => {
-    await client.connect();
-    console.log('client connected');
-})();
-const setRedisToken = async (userId,token,expire)=>{
-    await client.SET(userId,token,{'EX':expire})
-}
 
 const tokenExiste = (auth)=>{
     if(auth && auth.startsWith('Bearer')){
@@ -109,7 +100,7 @@ exports.logout = asyncHandler(async (req,res,next)=>{
     if(!decoded){
         return next(new apiError('refresh token invalid',401))
     }
-    await client.del(decoded.userId.toString())
+    deleteRedisToken(decoded.userId.toString())
     res.status(201).json({message:"user logged out"})
 })
 exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
@@ -121,7 +112,7 @@ exports.refreshAccesToken = asyncHandler(async (req,res,next)=>{
     if(!decoded){
         return next(new apiError('refresh token invalid',401))
     }
-    const value =  await client.get(decoded.userId.toString());
+    const value =await getRedisToken(decoded.userId.toString());
     if(value === null){
         return next(new apiError('refresh token is not the store',401))
     }

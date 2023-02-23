@@ -31,6 +31,9 @@ const mountRoutes = (app)=>{
     app.use('/',(req,res,next)=>{
         res.render('index')
     })
+    app.use('/dashboard',(req,res,next)=>{
+        res.render('dashboard')
+    })
 }
 
 module.exports = mountRoutes

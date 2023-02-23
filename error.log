@@ -20,3 +20,9 @@
 {"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:12:32.253Z"}
 {"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:13:00.739Z"}
 {"level":"error","message":"unhandledRejection The client is closed and Error","timestamp":"2023-02-19T17:13:04.247Z"}
+{"level":"error","message":"unhandledRejection Cannot read properties of null (reading 'json') and TypeError","timestamp":"2023-02-23T17:09:00.298Z"}
+{"level":"error","message":"unhandledRejection Cannot read properties of null (reading 'json') and TypeError","timestamp":"2023-02-23T17:14:10.479Z"}
+{"level":"error","message":"unhandledRejection Cannot read properties of null (reading 'json') and TypeError","timestamp":"2023-02-23T17:14:45.818Z"}
+{"level":"error","message":"unhandledRejection Assignment to constant variable. and TypeError","timestamp":"2023-02-23T18:01:52.002Z"}
+{"level":"error","message":"unhandledRejection Assignment to constant variable. and TypeError","timestamp":"2023-02-23T18:02:26.717Z"}
+{"level":"error","message":"unhandledRejection Assignment to constant variable. and TypeError","timestamp":"2023-02-23T18:03:03.535Z"}
