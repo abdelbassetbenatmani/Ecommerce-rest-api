@@ -11,17 +11,7 @@ const apiError = require('../utils/apiError')
 const {generateToken,generateRefreshToken} = require('../utils/generateToken')
 
 const User = require('../models/user.model')
-
-const client = redis.createClient({port:6379,host:"127.0.0.1"});
-
-(async () => {
-    await client.connect();
-    console.log('client connected');
-})();
-
-const setRedisToken = async (userId,token,expire)=>{
-    await client.SET(userId,token,{'EX':expire})
-}
+const {setRedisToken} = require('../config/redis')
 
 module.exports.updoadUserFile = uploadSingleImage('profileImg')
 

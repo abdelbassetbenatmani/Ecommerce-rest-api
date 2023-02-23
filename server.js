@@ -24,12 +24,14 @@ const mountRoutes = require('./routes')
 const {webhookCheckout} = require('./controllers/order.controller')
 //connection db 
 const dbConnection = require('./config/dbConnection')
+const {redisConnection} = require('./config/redis')
 // logging config
 const logger = require('./config/logger')
 // Passport Config
 require('./config/passport')(passport)
 
 dbConnection();
+redisConnection();
 
 
 const app = express();
