@@ -14,7 +14,8 @@ route.get(
      '/google/callback',
      passport.authenticate('google', { failureRedirect: '/' }),
      (req, res) => {
-       res.redirect('/home')
+     //   res.render('dashboard')
+       res.redirect('/dashboard')
      }
    )
 
@@ -27,7 +28,13 @@ route.route('/refresh-token')
      .post(refreshAccesToken)
 
 route.route('/logout')
-     .delete(logout,(req, res) => {req.logout(); res.redirect('/');console.log('logout here ');})
+     .delete(logout)
+     .get( (req, res, next) => {
+          req.logout((err) => {
+            if (err) { return next(err); }
+            res.redirect('/');
+          });
+        })
 
 route.route('/forgotPassword')
      .post(forgotPassword)
