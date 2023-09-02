@@ -80,7 +80,7 @@ productSchema.virtual('reviews', {
 productSchema.pre(/^find/, function(next) {
     this.populate({
         path: 'category',
-        select: 'name -_id'
+        select: 'name _id'
     });
     next();
 })
@@ -98,13 +98,13 @@ const setImageUrl = (doc)=>{
         doc.images = imageList
     }
 }
-// getAll,getOne,update
-productSchema.post('init',(doc)=>{
-    setImageUrl(doc);
-})
+// // getAll,getOne,update
+// productSchema.post('init',(doc)=>{
+//     setImageUrl(doc);
+// })
 // create
-productSchema.post('save',(doc)=>{
-    setImageUrl(doc);
-})
+// productSchema.post('save',(doc)=>{
+//     setImageUrl(doc);
+// })
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product

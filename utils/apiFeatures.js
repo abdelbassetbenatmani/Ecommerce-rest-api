@@ -10,8 +10,11 @@ class ApiFeatures{
         const excludeQuery = ["page", "limit", "fileds", "sort"]
         excludeQuery.forEach((elem) => delete queryStringObj[elem]);
         let strQuery = JSON.stringify(queryStringObj);
-        // apply filtretion use [get,gt,lte,lt]
-        strQuery = strQuery.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
+        // apply filtretion use [get,gt,lte,lt,in]
+        strQuery = strQuery.replace(
+            /\b(gte|gt|lte|lt|in)\b/g,
+            (match) => `$${match}`
+          );
         this.mongooseQuery = this.mongooseQuery.find(JSON.parse(strQuery));
         return this
     }
@@ -56,7 +59,7 @@ class ApiFeatures{
         const limit = +this.queryString.limit || 50;
         const skip = (page - 1) * limit
         const endIndex = limit * page;
-
+        this.mongooseQuery = this.mongooseQuery.skip(skip).limit(limit)
         const paginationObj = {};
         paginationObj.currentPage = page;
         paginationObj.limit = limit;
@@ -67,7 +70,7 @@ class ApiFeatures{
         if (skip>0) {
             paginationObj.prev = page-1
         }
-        this.mongooseQuery = this.mongooseQuery.skip(skip).limit(limit)
+       
         this.paginationResults = paginationObj;
         return this
     }

@@ -20,22 +20,28 @@ const subCategorySchema = mongoose.Schema({
     },
     image:String
 }, { timestamps: true })
-
-const setImageUrl = (doc)=>{
-    if(doc.image){
-        const imageURL = `${process.env.BASE_URL}/subcategories/${doc.image}`
-        doc.image = imageURL;
-    }
-
-}
-// getAll,getOne,update
-subCategorySchema.post('init',(doc)=>{
-    setImageUrl(doc);
+subCategorySchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'category',
+        select: 'name _id'
+    });
+    next();
 })
-// create
-subCategorySchema.post('save',(doc)=>{
-    setImageUrl(doc);
-})
+// const setImageUrl = (doc)=>{
+//     if(doc.image){
+//         const imageURL = `${process.env.BASE_URL}/subcategories/${doc.image}`
+//         doc.image = imageURL;
+//     }
+
+// }
+// // getAll,getOne,update
+// subCategorySchema.post('init',(doc)=>{
+//     setImageUrl(doc);
+// })
+// // create
+// subCategorySchema.post('save',(doc)=>{
+//     setImageUrl(doc);
+// })
 
 const subCategory = mongoose.model('SubCategory', subCategorySchema)
 module.exports = subCategory

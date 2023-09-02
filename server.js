@@ -37,6 +37,15 @@ redisConnection();
 
 
 const app = express();
+// Enable other domains to access your application
+const corsConfig = {
+    origin: true,
+    credentials: true,
+  };
+  
+  app.use(cors(corsConfig));
+  app.options('*', cors(corsConfig))
+app.options('*', cors());
 app.use(express.json({limit:"20kb"}));
 app.use(express.static(path.join(__dirname,'uploads')))
 app.use(express.static(path.join(__dirname,'public')))
@@ -49,9 +58,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session());
 
-// allowed other domain acces api
-app.use(cors())
-app.options('*', cors())
+
 // compress response
 app.options(compression())
 
@@ -94,6 +101,7 @@ app.all('*', (req, res, next) => {
     // eslint-disable-next-line new-cap
     next(new apiError(`Can't find this route ${req.originalUrl}`,400))
 })
+
 //Error handiling middelware
 app.use(globalError)
 
