@@ -46,6 +46,7 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default:false,
     },
+    image:String,
     wishlist:[{ type:mongoose.Schema.ObjectId,ref:'Product'}],
     adresses:[{
         id:{type:mongoose.Schema.Types.ObjectId,},
@@ -59,21 +60,21 @@ const userSchema = mongoose.Schema({
 },{timestamps:true})
 
 
-const setImageUrl = (doc)=>{
-    if(doc.profileImg){
-        const imageURL = `${process.env.BASE_URL}/users/${doc.image}`
-        doc.profileImg = imageURL;
-    }
+// const setImageUrl = (doc)=>{
+//     if(doc.profileImg){
+//         const imageURL = `${process.env.BASE_URL}/users/${doc.image}`
+//         doc.profileImg = imageURL;
+//     }
 
-}
-// getAll,getOne,update
-userSchema.post('init',(doc)=>{
-    setImageUrl(doc);
-})
-// create
-userSchema.post('save',(doc)=>{
-    setImageUrl(doc);
-})
+// }
+// // getAll,getOne,update
+// userSchema.post('init',(doc)=>{
+//     setImageUrl(doc);
+// })
+// // create
+// userSchema.post('save',(doc)=>{
+//     setImageUrl(doc);
+// })
 
 userSchema.pre('save', async function(next){
     if(!this.isModified('password')){

@@ -15,20 +15,20 @@ const brandSchema = mongoose.Schema({
     image:String
 }, { timestamps: true })
 
-const setImageUrl = (doc)=>{
-    if(doc.image){
-        const imageURL = `${process.env.BASE_URL}/brands/${doc.image}`
-        doc.image = imageURL;
-    }
+// const setImageUrl = (doc)=>{
+//     if(doc.image){
+//         const imageURL = `${process.env.BASE_URL}/brands/${doc.image}`
+//         doc.image = imageURL;
+//     }
 
-}
-// getAll,getOne,update
-brandSchema.post('init',(doc)=>{
-    setImageUrl(doc);
-})
-// create
-brandSchema.post('save',(doc)=>{
-    setImageUrl(doc);
-})
+// }
+// // getAll,getOne,update
+// brandSchema.post('init',(doc)=>{
+//     setImageUrl(doc);
+// })
+// // create
+// brandSchema.post('save',(doc)=>{
+//     setImageUrl(doc);
+// })
 const Brand = mongoose.model('brand', brandSchema)
 module.exports = Brand

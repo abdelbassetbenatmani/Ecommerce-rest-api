@@ -43,6 +43,7 @@
     "slugify": "^1.6.5",
     "stripe": "^11.8.0",
     "swagger-ui-express": "^4.6.0",
+    "twilio": "^4.8.0",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-mongodb": "^5.1.1",

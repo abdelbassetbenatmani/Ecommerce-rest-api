@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs');
 const exceljs = require('exceljs');
-const redis = require('redis');
 
 const factory = require('./handelersFactory');
 const {uploadSingleImage}= require('../Middleware/uploadImageMiddleware')
