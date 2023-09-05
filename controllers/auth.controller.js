@@ -35,7 +35,12 @@ exports.signup = asyncHandler(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
   });
-  const token = generateToken(user._id, process.env.JWT_EXPIRATION_LOGIN);
+  const payload = {
+    userId: user._id,
+    username: user.name,
+    role: user.role,
+  };
+  const token = generateToken(payload);
   const refreshToken = generateRefreshToken(user._id);
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
@@ -102,14 +107,21 @@ exports.login = asyncHandler(async (req, res, next) => {
       new apiError("The user deactivite ,active your acount first", 401)
     );
   }
-  const token = generateToken(user._id, process.env.JWT_EXPIRATION_LOGIN);
+  const payload = {
+    userId: user._id,
+    username: user.name,
+    role: user.role,
+  };
+  const token = generateToken(payload);
   const refreshToken = generateRefreshToken(user._id);
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    sameSite: "strict",
+    secure: true,
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000,
   });
   setRedisToken(user._id.toString(), refreshToken, 365 * 24 * 60 * 60);
-  res.status(200).json({ data: sanitizeUser(user), token });
+  res.status(200).json({ data: sanitizeUser(user), token, refreshToken });
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
@@ -125,11 +137,13 @@ exports.logout = asyncHandler(async (req, res, next) => {
   res.status(201).json({ message: "user logged out" });
 });
 exports.refreshAccesToken = asyncHandler(async (req, res, next) => {
-  const { refresh } = req.cookies;
-  if (!refresh) {
+  // eslint-disable-next-line no-shadow
+  const { refreshToken } = req.body;
+  console.log(req.body);
+  if (!refreshToken) {
     return next(new apiError("there are not refresh token", 404));
   }
-  const decoded = jwt.verify(refresh, process.env.JWT_REFRESH_SECRET);
+  const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
   if (!decoded) {
     return next(new apiError("refresh token invalid", 401));
   }
@@ -137,14 +151,18 @@ exports.refreshAccesToken = asyncHandler(async (req, res, next) => {
   if (value === null) {
     return next(new apiError("refresh token is not the store", 401));
   }
-  if (value !== refresh) {
+  if (value !== refreshToken) {
     return next(new apiError("refresh token not the same", 401));
   }
-  const token = generateToken(decoded.userId, process.env.JWT_EXPIRATION_LOGIN);
-  const refreshToken = generateRefreshToken(decoded.userId);
-  setRedisToken(decoded.userId, refreshToken, 365 * 24 * 60 * 60);
-
-  res.status(201).json({ token, refreshToken });
+  const payload = {
+    userId: decoded.userId,
+    username: decoded.name,
+    role: decoded.role,
+  };
+  const token = generateToken(payload);
+  const refreshTokenGenerator = generateRefreshToken(decoded.userId);
+  setRedisToken(decoded.userId, refreshTokenGenerator, 365 * 24 * 60 * 60);
+  res.status(201).json({ token, refreshTokenGenerator });
 });
 
 exports.protect = asyncHandler(async (req, res, next) => {
