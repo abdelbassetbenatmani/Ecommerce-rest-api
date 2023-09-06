@@ -7,21 +7,22 @@ module.exports = function (passport){
         new GoogleStrategy({
             clientID:process.env.GOOGLE_CLIENT_ID,
             clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL:process.env.GOOGLE_CALLBACK_URL
+            callbackURL:"http://localhost:3000/auth/google/callback"
         },
         async (accessToken, refreshToken, profile, done)=>{
 
-            const newUser = {
-                googleId:profile.id,
-                name:profile.displayName,
-                email:profile.emails[0].value,
-                profileImg: profile.photos[0].value,
-            }
+           
             try {
                 let user = await User.findOne({ googleId: profile.id })
                 if(user){
                     done(null, user)
                 }else{
+                    const newUser = {
+                        googleId:profile.id,
+                        name:profile.displayName,
+                        email:profile.emails[0].value,
+                        profileImg: profile.photos[0].value,
+                    }
                     user = await User.create(newUser)
                     done(null, user)
                 }

@@ -7,15 +7,16 @@ const {signup,login ,refreshAccesToken,logout,forgotPassword,verifyPassResetCode
 
 // Google Routes
 route.get('/google', passport.authenticate('google', {
-     scope: ['profile', 'email']
+     scope: ['profile' ,'email']
    }))
 
 route.get(
      '/google/callback',
-     passport.authenticate('google', { failureRedirect: '/' }),
+     passport.authenticate('google', { failureRedirect: 'http:localhost:5173/404' }),
      (req, res) => {
      //   res.render('dashboard')
-       res.redirect('/dashboard')
+          console.log("success")
+       res.render('http:localhost:5173/')
      }
    )
 

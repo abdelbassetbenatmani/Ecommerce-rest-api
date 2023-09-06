@@ -37,15 +37,17 @@ redisConnection();
 
 
 const app = express();
+
 // Enable other domains to access your application
 const corsConfig = {
-    origin: true,
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
     credentials: true,
   };
   
   app.use(cors(corsConfig));
   app.options('*', cors(corsConfig))
-app.options('*', cors());
+// app.options('*', cors());
 app.use(express.json({limit:"20kb"}));
 app.use(express.static(path.join(__dirname,'uploads')))
 app.use(express.static(path.join(__dirname,'public')))
