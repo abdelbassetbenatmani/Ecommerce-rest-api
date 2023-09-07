@@ -1,24 +1,24 @@
-const GoogleStrategy = require('passport-google-oauth20').Strategy
+const GitHubStrategy = require('passport-github2').Strategy
 
 const User = require('../models/user.model')
 
 module.exports = function (passport){
     passport.use(
-        new GoogleStrategy({
-            clientID:process.env.GOOGLE_CLIENT_ID,
-            clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL:"http://localhost:3000/api/v1/auth/google/callback"
+        new GitHubStrategy({
+            clientID: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL:"http://localhost:3000/api/v1/auth/github/callback"
         },
         async (accessToken, refreshToken, profile, done)=>{
 
            
             try {
-                let user = await User.findOne({ googleId: profile.id })
+                let user = await User.findOne({ githubId: profile.id })
                 if(user){
                     done(null, user)
                 }else{
                     const newUser = {
-                        googleId:profile.id,
+                        githubId:profile.id,
                         name:profile.displayName,
                         email:profile.emails[0].value,
                         profileImg: profile.photos[0].value,

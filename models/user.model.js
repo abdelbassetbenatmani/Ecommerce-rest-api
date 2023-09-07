@@ -6,6 +6,10 @@ const userSchema = mongoose.Schema({
         type:String,
         default:null,
     },
+    githubId:{
+        type:String,
+        default:null,
+    },
     name:{
         type:String,
         required:[true,'name is required'],
