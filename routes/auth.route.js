@@ -1,56 +1,80 @@
-const express = require('express')
-const passport = require('passport')
+const express = require("express");
+const passport = require("passport");
 
-const route = express.Router()
-const { signupValidator,loginValidator} = require('../utils/validator/authValidator')
-const {signup,login ,refreshAccesToken,logout,forgotPassword,verifyPassResetCode,resetPassword,activateAccount,sendEmailToActivateAccount,activateUserAccount} = require('../controllers/auth.controller')
+const route = express.Router();
+const {
+  signupValidator,
+  loginValidator,
+} = require("../utils/validator/authValidator");
+const {
+  signup,
+  login,
+  refreshAccesToken,
+  logout,
+  forgotPassword,
+  verifyPassResetCode,
+  resetPassword,
+  activateAccount,
+  sendEmailToActivateAccount,
+  activateUserAccount,
+} = require("../controllers/auth.controller");
 
 // Google Routes
-route.get('/google', passport.authenticate('google', {
-     scope: ['profile' ,'email']
-   }))
+route.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
 
 route.get(
-     '/google/callback',
-     passport.authenticate('google', { failureRedirect: 'http:localhost:5173/404' }),
-     (req, res) => {
-     //   res.render('dashboard')
-          console.log("success")
-       res.render('http:localhost:5173/')
-     }
-   )
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "http:localhost:5173/404",
+    successRedirect:"http://localhost:5173"
+  })
+);
+// Github Routes
+route.get(
+  "/github",
+  passport.authenticate("github", {
+    scope: ["profile", "email"],
+  })
+);
 
-route.route('/signup')
-     .post(signupValidator,signup)
-route.route('/login')
-     .post(loginValidator,login)
+route.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "http:localhost:5173/404",
+    successRedirect:"http://localhost:5173"
+  })
+);
 
-route.route('/refresh-token')
-     .post(refreshAccesToken)
+route.route("/signup").post(signupValidator, signup);
+route.route("/login").post(loginValidator, login);
 
-route.route('/logout')
-     .delete(logout)
-     .get( (req, res, next) => {
-          req.logout((err) => {
-            if (err) { return next(err); }
-            res.redirect('/');
-          });
-        })
+route.route("/refresh-token").post(refreshAccesToken);
 
-route.route('/forgotPassword')
-     .post(forgotPassword)
+route
+  .route("/logout")
+  // .delete(logout)
+  .get((req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
 
-route.route('/verifyResetCode')
-     .post(verifyPassResetCode)
+route.route("/forgotPassword").post(forgotPassword);
 
-route.route('/virefied/:tokenLink')
-     .post(activateAccount)
-route.route('/activate')
-     .post(sendEmailToActivateAccount)
-route.route('/activate/:token')
-     .post(activateUserAccount)
+route.route("/verifyResetCode").post(verifyPassResetCode);
 
-route.route('/resetPassword')
-     .put(resetPassword)
+route.route("/virefied/:tokenLink").post(activateAccount);
+route.route("/activate").post(sendEmailToActivateAccount);
+route.route("/activate/:token").post(activateUserAccount);
+
+route.route("/resetPassword").put(resetPassword);
 
 module.exports = route;

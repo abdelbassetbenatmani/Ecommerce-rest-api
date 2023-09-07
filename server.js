@@ -31,6 +31,7 @@ const {redisConnection} = require('./config/redis')
 const logger = require('./config/logger')
 // Passport Config
 require('./config/passport')(passport)
+require('./config/githubPassport')(passport)
 
 dbConnection();
 redisConnection();
