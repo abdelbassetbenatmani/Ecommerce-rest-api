@@ -34,21 +34,7 @@ route.get(
     successRedirect:"http://localhost:5173"
   })
 );
-// Github Routes
-route.get(
-  "/github",
-  passport.authenticate("github", {
-    scope: ["profile", "email"],
-  })
-);
 
-route.get(
-  "/github/callback",
-  passport.authenticate("github", {
-    failureRedirect: "http:localhost:5173/404",
-    successRedirect:"http://localhost:5173"
-  })
-);
 
 route.route("/signup").post(signupValidator, signup);
 route.route("/login").post(loginValidator, login);
