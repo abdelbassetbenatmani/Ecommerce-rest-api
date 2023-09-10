@@ -20,20 +20,20 @@ const {
 } = require("../controllers/auth.controller");
 
 // Google Routes
-route.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
+// route.get(
+//   "/google",
+//   passport.authenticate("google", {
+//     scope: ["profile", "email"],
+//   })
+// );
 
-route.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "http:localhost:5173/404",
-    successRedirect:"http://localhost:5173"
-  })
-);
+// route.get(
+//   "/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "http:localhost:5173/404",
+//     successRedirect:"http://localhost:5173"
+//   })
+// );
 
 
 route.route("/signup").post(signupValidator, signup);

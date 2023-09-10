@@ -7,7 +7,7 @@ const {protect,allowedTo} = require('../controllers/auth.controller')
 
 route.route('/')
     .get(getBrands)
-    .post(protect,allowedTo('admin','manager'),updoadBrandFile,proccesImage ,createBrandValidator,createBrand)
+    .post(protect,allowedTo('admin','manager'),updoadBrandFile,proccesImage,createBrandValidator,createBrand)
 route.route('/:id')
     .get(getBrandValidator, getSpecificBrand)
     .put(protect,allowedTo('admin','manager'),updoadBrandFile,proccesImage ,updateBrandValidator, updateBrand)

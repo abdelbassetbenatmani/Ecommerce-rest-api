@@ -169,43 +169,53 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // check token exist
   let token;
   token = tokenExiste(req.headers.authorization);
-
+  const isCustomAuth = token.length < 500;
+  console.log(isCustomAuth);
   if (!token) {
     return next(new apiError("you are not login please login first", 401));
   }
   // verify token
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  if (!decoded) {
-    return next(new apiError("token invalid", 401));
-  }
+  let decoded = null;
+  if (token && isCustomAuth) {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
 
-  // check user with userId is existe
-  const currentUser = await User.findById(decoded.userId);
-  if (!currentUser) {
-    return next(
-      new apiError(
-        "The user that belong to this token does no longer existe",
-        401
-      )
-    );
-  }
-
-  // check if user change password
-  if (currentUser.passwordChangedAt) {
-    const passwordChangedTimeStemp = parseInt(
-      currentUser.passwordChangedAt / 1000,
-      10
-    );
-    if (passwordChangedTimeStemp > decoded.iat) {
+    if (!decoded) {
+      return next(new apiError("token invalid", 401));
+    }
+    // check user with userId is existe
+    const currentUser = await User.findById(decoded.userId);
+    if (!currentUser) {
       return next(
         new apiError(
-          "The user that changed password please login again ...",
+          "The user that belong to this token does no longer existe",
           401
         )
       );
     }
+
+    // check if user change password
+    if (currentUser.passwordChangedAt) {
+      const passwordChangedTimeStemp = parseInt(
+        currentUser.passwordChangedAt / 1000,
+        10
+      );
+      if (passwordChangedTimeStemp > decoded.iat) {
+        return next(
+          new apiError(
+            "The user that changed password please login again ...",
+            401
+          )
+        );
+      }
+    }
+    req.user = currentUser;
+  } else {
+    console.log("else user not found");
+    decoded = jwt.decode(token);
+    req.user.role = "user";
+    req.user = decoded?.sub;
   }
-  req.user = currentUser;
   next();
 });
 
