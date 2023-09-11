@@ -36,6 +36,8 @@ const {
 // );
 
 
+route.route("/signup-google").post( signup);
+route.route("/login-google").post( login);
 route.route("/signup").post(signupValidator, signup);
 route.route("/login").post(loginValidator, login);
 

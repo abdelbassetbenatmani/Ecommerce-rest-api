@@ -13,7 +13,7 @@ const reviewSchema = new mongoose.Schema({
         required:[true,'review rating required']
     },
     user:{
-        type:mongoose.Schema.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref:"User",
         required:[true,'Review must belong to user']
     },
