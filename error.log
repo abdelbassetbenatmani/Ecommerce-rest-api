@@ -32,4 +32,18 @@
 {"level":"error","message":"unhandledRejection queryTxt EREFUSED abdelbasset.d7gr8ht.mongodb.net and Error","timestamp":"2023-09-01T19:27:59.021Z"}
 {"level":"error","message":"unhandledRejection querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net and Error","timestamp":"2023-09-01T21:30:43.659Z"}
 {"level":"error","message":"unhandledRejection Cannot read properties of undefined (reading '0') and TypeError","timestamp":"2023-09-06T20:29:29.188Z"}
+<<<<<<< HEAD
 {"level":"error","message":"unhandledRejection querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net and Error","timestamp":"2023-09-11T20:39:15.752Z"}
+=======
+{"level":"error","message":"check connection db bad auth : Authentication failed.","timestamp":"2023-09-11T12:22:21.778Z"}
+{"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-11T12:22:49.242Z"}
+{"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-11T12:30:30.219Z"}
+{"level":"error","message":"unhandledRejection bad auth : Authentication failed. and MongoServerError","timestamp":"2023-09-11T12:44:57.742Z"}
+{"level":"error","message":"unhandledRejection queryTxt EREFUSED abdelbasset.d7gr8ht.mongodb.net and Error","timestamp":"2023-09-11T13:01:45.167Z"}
+{"level":"error","message":"check connection db bad auth : Authentication failed.","timestamp":"2023-09-11T13:20:11.664Z"}
+{"level":"error","message":"unhandledRejection bad auth : Authentication failed. and MongoServerError","timestamp":"2023-09-11T13:20:11.680Z"}
+{"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-11T13:25:52.119Z"}
+{"level":"error","message":"unhandledRejection querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net and Error","timestamp":"2023-09-11T13:26:16.119Z"}
+{"level":"error","message":"check connection db bad auth : Authentication failed.","timestamp":"2023-09-11T16:10:35.347Z"}
+{"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-11T16:13:05.830Z"}
+>>>>>>> 746237ef6e76b04b4d18c17bfbe02c30ed9c46fd

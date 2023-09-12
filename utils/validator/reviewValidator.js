@@ -10,15 +10,12 @@ exports.createReviewValidator = [
     check('title').optional(),
     check('rating').notEmpty().withMessage('rating is required')
     .isFloat({min: 1, max:5}).withMessage('rating must be between 1 and 5'),
-    check('user')
-    .isMongoId().withMessage('incorrect user id format'),
     check('product')
     .isMongoId().withMessage('incorrect product id format')
     .custom((val, { req }) =>
     // Check if logged user create review before
     Review.findOne({ user: req.user._id, product: req.body.product }).then(
       (review) => {
-        console.log(review);
         if (review) {
           return Promise.reject(
             new Error('You already created a review before')

@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-
+const axios = require("axios");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -30,25 +30,57 @@ const hashedResetCode = (resetCode) =>
   crypto.createHash("sha256").update(resetCode).digest("hex");
 
 exports.signup = asyncHandler(async (req, res, next) => {
-  const user = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  const payload = {
-    userId: user._id,
-    username: user.name,
-    role: user.role,
-  };
-  const token = generateToken(payload);
-  const refreshToken = generateRefreshToken(user._id);
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    sameSite: "strict",
-  });
-  setRedisToken(user._id.toString(), refreshToken, 365 * 24 * 60 * 60);
-  const message = `Hi ${user.name}, There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please copy this reset code to change your password:`;
-  const htmlCode = `<html><head><title>Verify your Account</title></head><body><h2 style='text-align:center;color:red;font-family:Sans-serif'>Hi ${user.name}</h2>
+  if (req.body.googleAccessToken) {
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${req.body.googleAccessToken}`,
+        },
+      })
+      .then(async (response) => {
+        const name = response.data.name
+        const email = response.data.email;
+        const profileImg = response.data.picture;
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser)
+          return res.status(400).json({ message: "User already exist!" });
+
+        const result = await User.create({ email, name, profileImg });
+
+        const payload = {
+          userId: result._id,
+          username: result.name,
+          role: "user",
+        };
+        const token = generateToken(payload);
+
+        res.status(200).json({ result, token });
+      })
+      .catch((err) => {
+        res.status(400).json({ message: err });
+      });
+  } else {
+    const user = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    });
+    const payload = {
+      userId: user._id,
+      username: user.name,
+      role: user.role,
+    };
+    const token = generateToken(payload);
+    const refreshToken = generateRefreshToken(user._id);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+    setRedisToken(user._id.toString(), refreshToken, 365 * 24 * 60 * 60);
+    const message = `Hi ${user.name}, There was a request to change your password! If you did not make this request then please ignore this email. Otherwise, please copy this reset code to change your password:`;
+    const htmlCode = `<html><head><title>Verify your Account</title></head><body><h2 style='text-align:center;color:red;font-family:Sans-serif'>Hi ${user.name}</h2>
     <p style='text-align:center;color:black;font-family:Sans-serif;line-height:1.5'>You registered an account on [customer portal], before being able to use your account you need to verify that this is your email address by clicking here:</p>
   <div style="text-align:center"><a href ='http://localhost:3000/api/v1/virefied/${token}' style ='appearance: button;
   background-color: #1652F0;
@@ -73,55 +105,89 @@ exports.signup = asyncHandler(async (req, res, next) => {
   touch-action: manipulation;
   width: fit-content;text-decoration:none;'>Click here</a></div>
  
-  <h4 style='text-align:center;color:blue;font-family:Sans-serif'>Full Ecommerce</h4></body></html>`;
-  //   try {
-  //     await sendSms('hello world')
-  //   } catch (error) {
-  //     return next(new apiError(`There was a problem to send sms twilio`,500))
-  //   }
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: "Verify your Account",
-      message,
-      html: htmlCode,
-    });
-  } catch (error) {
-    user.passwordResetCode = undefined;
-    user.passwordResetCodeExpired = undefined;
-    user.passwordResetCodeVerify = undefined;
-    user.save();
+    <h4 style='text-align:center;color:blue;font-family:Sans-serif'>Full Ecommerce</h4></body></html>`;
+    //   try {
+    //     await sendSms('hello world')
+    //   } catch (error) {
+    //     return next(new apiError(`There was a problem to send sms twilio`,500))
+    //   }
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Verify your Account",
+        message,
+        html: htmlCode,
+      });
+    } catch (error) {
+      user.passwordResetCode = undefined;
+      user.passwordResetCodeExpired = undefined;
+      user.passwordResetCodeVerify = undefined;
+      user.save();
 
-    return next(new apiError(`There was a problem to send email`, 500));
+      return next(new apiError(`There was a problem to send email`, 500));
+    }
+    res.status(201).json({ data: sanitizeUser(user), token, refreshToken });
   }
-  res.status(201).json({ data: sanitizeUser(user), token, refreshToken });
 });
 
 exports.login = asyncHandler(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new apiError("there was an error in email or password", 401));
+  if (req.body.googleAccessToken) {
+    // gogole-auth
+    const { googleAccessToken } = req.body;
+    console.log(googleAccessToken);
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${googleAccessToken}`,
+        },
+      })
+      .then(async (response) => {
+        const email = response.data.email;
+        const existingUser = await User.findOne({ email });
+
+        if (!existingUser)
+          return res.status(404).json({ message: "User don't exist!" });
+
+        const payload = {
+          userId: existingUser._id,
+          username: existingUser.name,
+          role: "user",
+        };
+        const token = generateToken(payload);
+
+        res.status(200).json({ result: existingUser, token });
+        console.log(existingUser);
+      })
+      .catch((err) => {
+        res.status(400).json({ err });
+        console.log(err);
+      });
+  } else {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+      return next(new apiError("there was an error in email or password", 401));
+    }
+    if (!user.active) {
+      return next(
+        new apiError("The user deactivite ,active your acount first", 401)
+      );
+    }
+    const payload = {
+      userId: user._id,
+      username: user.name,
+      role: user.role,
+    };
+    const token = generateToken(payload);
+    const refreshToken = generateRefreshToken(user._id);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    setRedisToken(user._id.toString(), refreshToken, 365 * 24 * 60 * 60);
+    res.status(200).json({ data: user, token, refreshToken });
   }
-  if (!user.active) {
-    return next(
-      new apiError("The user deactivite ,active your acount first", 401)
-    );
-  }
-  const payload = {
-    userId: user._id,
-    username: user.name,
-    role: user.role,
-  };
-  const token = generateToken(payload);
-  const refreshToken = generateRefreshToken(user._id);
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
-  setRedisToken(user._id.toString(), refreshToken, 365 * 24 * 60 * 60);
-  res.status(200).json({ data: sanitizeUser(user), token, refreshToken });
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
@@ -169,53 +235,44 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // check token exist
   let token;
   token = tokenExiste(req.headers.authorization);
-  const isCustomAuth = token.length < 500;
-  console.log(isCustomAuth);
   if (!token) {
     return next(new apiError("you are not login please login first", 401));
   }
   // verify token
-  let decoded = null;
-  if (token && isCustomAuth) {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
 
-    if (!decoded) {
-      return next(new apiError("token invalid", 401));
-    }
-    // check user with userId is existe
-    const currentUser = await User.findById(decoded.userId);
-    if (!currentUser) {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  console.log(decoded);
+
+  if (!decoded) {
+    return next(new apiError("token invalid", 401));
+  }
+  // check user with userId is existe
+  const currentUser = await User.findById(decoded.userId);
+  if (!currentUser) {
+    return next(
+      new apiError(
+        "The user that belong to this token does no longer existe",
+        401
+      )
+    );
+  }
+
+  // check if user change password
+  if (currentUser.passwordChangedAt) {
+    const passwordChangedTimeStemp = parseInt(
+      currentUser.passwordChangedAt / 1000,
+      10
+    );
+    if (passwordChangedTimeStemp > decoded.iat) {
       return next(
         new apiError(
-          "The user that belong to this token does no longer existe",
+          "The user that changed password please login again ...",
           401
         )
       );
     }
-
-    // check if user change password
-    if (currentUser.passwordChangedAt) {
-      const passwordChangedTimeStemp = parseInt(
-        currentUser.passwordChangedAt / 1000,
-        10
-      );
-      if (passwordChangedTimeStemp > decoded.iat) {
-        return next(
-          new apiError(
-            "The user that changed password please login again ...",
-            401
-          )
-        );
-      }
-    }
-    req.user = currentUser;
-  } else {
-    console.log("else user not found");
-    decoded = jwt.decode(token);
-    req.user.role = "user";
-    req.user = decoded?.sub;
   }
+  req.user = currentUser;
   next();
 });
 
