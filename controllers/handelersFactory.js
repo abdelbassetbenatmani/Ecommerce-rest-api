@@ -10,7 +10,7 @@ exports.deleteOne = Model =>  asyncHandler(async (req, res,next) => {
     }
     // trigger remove event when document is removed
     document.remove();
-    res.status(204).send();
+    res.status(200).json({id:id,status:200});
 })
 
 exports.updateOne = Model =>  asyncHandler(async (req, res,next) => {

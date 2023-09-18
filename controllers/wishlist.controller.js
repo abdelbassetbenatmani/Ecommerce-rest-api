@@ -6,6 +6,8 @@ exports.addProductToWishlist = asyncHandler(async (req,res,next)=>{
     const user = await User.findByIdAndUpdate(req.user._id,
         {$addToSet:{wishlist:req.body.productId}},
         {new:true})
+
+    console.log(user)
     res.status(200).json({status: 'success',data: user.wishlist})    
 })
 

@@ -79,7 +79,7 @@ const limiter = rateLimit({
 });
 
 // Apply the rate limiting middleware to all requests
-app.use(limiter);
+// app.use(limiter);
 
 // middleware to protect against HTTP Parameter Pollution attacks
 app.use(
