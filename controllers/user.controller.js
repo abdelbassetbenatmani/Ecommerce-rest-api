@@ -82,7 +82,6 @@ exports.updateLoggedUserPassword = asyncHandler(async (req, res,next) =>{
 })
 
 exports.updateLoggedUserData = asyncHandler(async (req, res,next) =>{
-    console.log(req.file);
     const user = await User.findByIdAndUpdate(req.user._id,{
         name : req.body.name,
         email : req.body.email,

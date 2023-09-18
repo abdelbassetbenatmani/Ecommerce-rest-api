@@ -134,7 +134,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   if (req.body.googleAccessToken) {
     // gogole-auth
     const { googleAccessToken } = req.body;
-    console.log(googleAccessToken);
     axios
       .get("https://www.googleapis.com/oauth2/v3/userinfo", {
         headers: {
@@ -156,11 +155,9 @@ exports.login = asyncHandler(async (req, res, next) => {
         const token = generateToken(payload);
 
         res.status(200).json({ result: existingUser, token });
-        console.log(existingUser);
       })
       .catch((err) => {
         res.status(400).json({ err });
-        console.log(err);
       });
   } else {
     const user = await User.findOne({ email: req.body.email });
@@ -205,7 +202,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.refreshAccesToken = asyncHandler(async (req, res, next) => {
   // eslint-disable-next-line no-shadow
   const { refreshToken } = req.body;
-  console.log(req.body);
   if (!refreshToken) {
     return next(new apiError("there are not refresh token", 404));
   }
@@ -241,7 +237,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
   // verify token
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(decoded);
 
   if (!decoded) {
     return next(new apiError("token invalid", 401));
@@ -348,7 +343,6 @@ exports.activateAccount = asyncHandler(async (req, res, next) => {
   // verify token
   const decoded = jwt.verify(tokenLink, process.env.JWT_SECRET);
   // check user with userId is existe
-  console.log(decoded.userId);
   const user = await User.findById(decoded.userId);
   if (!user) {
     return next(new apiError(`Reset Code invalid or expired`, 500));
