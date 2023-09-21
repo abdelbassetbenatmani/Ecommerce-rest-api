@@ -31,8 +31,7 @@ exports.signupValidator = [
         return true
     }),
 
-    check('phone').optional()
-    .isMobilePhone('ar-DZ').withMessage('Invalid phone number'),
+
 
     check('profileImg').optional(),
     check('role').optional(),
