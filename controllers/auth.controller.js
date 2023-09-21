@@ -53,6 +53,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
           userId: result._id,
           username: result.name,
           role: "user",
+          authType:"gmail"
         };
         const token = generateToken(payload);
 
@@ -71,6 +72,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
       userId: user._id,
       username: user.name,
       role: user.role,
+      authType:"user-password"
     };
     const token = generateToken(payload);
     const refreshToken = generateRefreshToken(user._id);
@@ -151,6 +153,7 @@ exports.login = asyncHandler(async (req, res, next) => {
           userId: existingUser._id,
           username: existingUser.name,
           role: "user",
+          authType:"gmail"
         };
         const token = generateToken(payload);
 
@@ -173,6 +176,7 @@ exports.login = asyncHandler(async (req, res, next) => {
       userId: user._id,
       username: user.name,
       role: user.role,
+      authType:"user-password",
     };
     const token = generateToken(payload);
     const refreshToken = generateRefreshToken(user._id);
@@ -406,7 +410,13 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   user.passwordResetCodeVerify = undefined;
 
   await user.save();
-  const token = generateToken(user._id, process.env.JWT_EXPIRATION_LOGIN);
+  const payload = {
+    userId: user._id,
+    username: user.name,
+    role: user.role,
+    authType:"user-password",
+  };
+  const token = generateToken(payload);
   const refreshToken = generateRefreshToken(user._id);
   res.status(200).json({ token, refreshToken });
 });

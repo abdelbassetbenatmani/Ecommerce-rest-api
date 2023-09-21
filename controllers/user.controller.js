@@ -75,7 +75,13 @@ exports.updateLoggedUserPassword = asyncHandler(async (req, res,next) =>{
         passwordChangedAt:Date.now()
     }, { new: true })
 
-    const token = generateToken(user._id,process.env.JWT_EXPIRATION_LOGIN)
+    const payload = {
+        userId: user._id,
+        username: user.name,
+        role: user.role,
+        authType:"user-password",
+      };
+    const token = generateToken(payload);
     const refreshToken = generateRefreshToken(user._id)
     setRedisToken(user._id.toString(),refreshToken,365*24*60*60)
     res.status(200).json({data:user,token,refreshToken})

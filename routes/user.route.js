@@ -7,7 +7,7 @@ const {protect,allowedTo} = require('../controllers/auth.controller')
 
 // Logged in user
 route.get('/getMe',protect,getLoggedUserData,getSpecificUser)
-route.put('/changeMyPassword',protect,updateLoggedUserPassword)
+route.put('/changeMyPassword',protect,getLoggedUserData,changePasswordValidator,updateLoggedUserPassword)
 route.put('/changeMyData',protect,updoadUserFile,proccesImage ,updateLoggedUserValidator,updateLoggedUserData)
 route.delete('/deleteMe',protect,deleteLoggedUser)
 

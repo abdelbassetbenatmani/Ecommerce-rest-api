@@ -77,7 +77,7 @@ exports.updateLoggedUserValidator =  [
         }
       })
     ),
-    check('phone').optional().isMobilePhone('any').withMessage('Invalid phone number'),
+    // check('phone').optional().isMobilePhone('any').withMessage('Invalid phone number'),
     check('profileImg').optional()
     , validatorMiddleware]
 
@@ -88,6 +88,7 @@ exports.changePasswordValidator = [
     body('confirmpassword').notEmpty().withMessage('you must enter confirm password'),
     body('password').notEmpty().withMessage('you must enter new password').custom(async (val,{req})=>{
         // 1- verify current password
+        console.log(req);
         const user = await User.findById(req.params.id)
         if(!user){
             throw new Error('there is no user for this id')
