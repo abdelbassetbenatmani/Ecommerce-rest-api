@@ -59,6 +59,16 @@ exports.addProductToCart = asyncHandler(async (req,res,next)=>{
 
 exports.getLoggedUserCart = asyncHandler(async (req,res,next)=>{
   const cart = await  Cart.findOne({user:req.user._id})
+  .populate({
+    path: 'cartItems.product',
+    select: 'title imageCover ratingsAverage brand category ',
+    populate: { path: 'brand', select: 'name -_id', model: 'brand' },
+  })
+  .populate({
+    path: 'cartItems.product',
+    select: 'title imageCover ratingsAverage brand category',
+    populate: { path: 'category', select: 'name -_id', model: 'category' },
+  });
   if(!cart){
     return next(new apiError(`there is no cart for this user id ${req.user._id}`,404))
   }
