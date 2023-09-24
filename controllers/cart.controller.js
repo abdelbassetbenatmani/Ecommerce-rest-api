@@ -5,6 +5,7 @@ const apiError = require('../utils/apiError')
 const Cart = require('../models/cart.model')
 const Coupon = require('../models/coupon.model')
 const Product = require('../models/product.model')
+const { log } = require('winston')
 
 const calcTotalCartPrice = (cart) => {
     let totalPrice = 0;
@@ -128,26 +129,41 @@ exports.updateQuantity = asyncHandler(async (req,res,next)=>{
 });
 
 exports.applyCoupon = asyncHandler(async (req, res,next) => {
+  let cart = await Cart.findOne({ user: req.user._id }).populate({
+    path: 'cartItems.product',
+    select: 'title imageCover ratingsAverage brand category ',
+    populate: { path: 'brand', select: 'name -_id', model: 'brand' },
+  })
+  .populate({
+    path: 'cartItems.product',
+    select: 'title imageCover ratingsAverage brand category',
+    populate: { path: 'category', select: 'name -_id', model: 'category' },
+  });
   // get coupon based on coupon name
   const coupon = await Coupon.findOne({
      name: req.body.coupon,
      expire: { $gt: Date.now() },})
   if(!coupon){
+    cart.totalAfterDiscount = undefined;
+    cart.coupon = undefined;
+    await cart.save();
     return next(new apiError(`Coupon is invalid or expire`,404))
   }
-  let cart = await Cart.findOne({ user: req.user._id });
+  console.log(coupon);
 
   const totalPrice = cart.totalCartPrice;
   const priceAfterDiscount = (
     totalPrice -
     (totalPrice * coupon.discount) / 100
   ).toFixed(2); 
+  cart.coupon = coupon.name;
   cart.priceAfterDiscount = priceAfterDiscount
 
   await cart.save();
   
   res.status(200).json({
       status: 'success',
+      coupon :coupon.name,
       numOfCartItems: cart.cartItems.length,
       message:"Coupon applied successfully",
       data: cart,
