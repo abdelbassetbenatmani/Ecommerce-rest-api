@@ -15,6 +15,7 @@ const cartSchema = mongoose.Schema({
 
     }],
     totalCartPrice:Number,
+    coupon:String,
     priceAfterDiscount:Number,
     user:{
         type:mongoose.Schema.ObjectId,
