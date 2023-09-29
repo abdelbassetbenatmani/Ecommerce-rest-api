@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const sendEmail = require("../utils/sendEmail");
-const sendSms = require("../utils/twilio");
+// const sendSms = require("../utils/twilio");
 const {
   generateToken,
   generateRefreshToken,
