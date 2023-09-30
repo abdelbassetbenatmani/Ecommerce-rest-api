@@ -173,7 +173,7 @@ exports.webhookCheckout = asyncHandler(async (req, res,next ) => {
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
-      response.status(400).send(`Webhook Error 2022: ${err.message}`);
+      res.status(400).send(`Webhook Error 2023: ${err.message}`);
       return;
     }
     
