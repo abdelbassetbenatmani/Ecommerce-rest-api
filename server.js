@@ -61,6 +61,11 @@ app.use(
 
 // compress response
 app.options(compression());
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  webhookCheckout
+);
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -116,11 +121,7 @@ app.get("/", (req, res) => {
   res.send("full ecommerce on Vercel");
 });
 
-app.post(
-  "/api/v1/webhook-checkout",
-  express.raw({ type: "application/json" }),
-  webhookCheckout
-);
+
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
