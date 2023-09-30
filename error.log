@@ -47,3 +47,4 @@
 {"level":"error","message":"check connection db bad auth : Authentication failed.","timestamp":"2023-09-11T16:10:35.347Z"}
 {"level":"error","message":"check connection db querySrv EREFUSED _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-11T16:13:05.830Z"}
 >>>>>>> 746237ef6e76b04b4d18c17bfbe02c30ed9c46fd
+{"level":"error","message":"check connection db querySrv ETIMEOUT _mongodb._tcp.abdelbasset.d7gr8ht.mongodb.net","timestamp":"2023-09-30T20:56:39.048Z"}

@@ -101,8 +101,8 @@ exports.createCheckoutSession = asyncHandler(async (req,res,next)=>{
            }
         ],
         mode:"payment",
-        success_url: `${req.protocol}://${req.get("host")}/orders`,
-        cancel_url: `${req.protocol}://${req.get("host")}/orders`,
+        success_url: `${req.protocol}://${req.get("host")}/api/v1/orders`,
+        cancel_url: `${req.protocol}://${req.get("host")}/api/v1/cart`,
         customer_email:req.user.email,
         client_reference_id:req.params.cartId,
         metadata:req.body.shippingAdress
@@ -165,19 +165,19 @@ const createCardOrder =async (session)=>{
 
 //   res.status(200).json({ received: true });
 // });
-exports.webhookCheckout = asyncHandler(async (req, res ) => {
-    const sig = request.headers['stripe-signature'];
+exports.webhookCheckout = asyncHandler(async (req, res,next ) => {
+    const sig = req.headers['stripe-signature'];
 
     let event;
   
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
       response.status(400).send(`Webhook Error 2022: ${err.message}`);
       return;
     }
     
-         if (event.type === 'checkout.session.completed') {
+    if (event.type === 'checkout.session.completed') {
     //  Create order
     createCardOrder(event.data.object);
   }
