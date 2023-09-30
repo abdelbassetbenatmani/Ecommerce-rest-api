@@ -10,7 +10,7 @@ const hpp = require("hpp");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const helmet = require("helmet");
-const passport = require("passport");
+// const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
@@ -28,7 +28,7 @@ const { redisConnection } = require("./config/redis");
 // logging config
 const logger = require("./config/logger");
 // Passport Config
-require("./config/passport")(passport);
+// require("./config/passport")(passport);
 
 dbConnection();
 redisConnection();
@@ -56,8 +56,8 @@ app.use(
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // compress response
 app.options(compression());
