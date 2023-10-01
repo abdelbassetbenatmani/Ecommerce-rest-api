@@ -44,6 +44,15 @@ const corsConfig = {
 
 app.use(cors(corsConfig));
 app.options("*", cors(corsConfig));
+// compress response
+app.options(compression());
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  webhookCheckout
+);
+
 // app.options('*', cors());
 app.use(express.json({ limit: "20kb" }));
 app.use(express.static(path.join(__dirname, "uploads")));
@@ -59,13 +68,7 @@ app.use(
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-// compress response
-app.options(compression());
-app.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  webhookCheckout
-);
+
 
 app.set("view engine", "ejs");
 app.set("views", "views");
