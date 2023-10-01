@@ -119,13 +119,13 @@ const createCardOrder = async (session) => {
   const shippingAdress = session.metadata;
   const orderPrice = session.amount_total / 100;
 
-  const cart = Cart.findById(cartId);
-//   const user = User.findOne({ email: session.customer_email });
+  const cart = await Cart.findById(cartId);
+  const user = await User.findOne({ email: session.customer_email });
   console.log(`the card ${cartId} the user ${user.name} `);
   try {
     // 3- create order based on shipping methode "Cash"
     const order = await Order.create({
-      user: req.user._id,
+      user: user._id,
       cartItems: cart.cartItems,
       shippingAdress,
       totalOrderPrice: orderPrice,
