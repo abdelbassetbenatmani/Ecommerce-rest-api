@@ -39,9 +39,9 @@ exports.createCashOrder = asyncHandler(async (req,res,next)=>{
         await Product.bulkWrite(bulkOption,{});
 
         // 5- clear cart 
-        await Cart.findByIdAndDelete(req.params.cartId)
+        await Cart.findByIdAndDelete(cart._id)
     }
-    res.status(200).json({status:'Succes',data:order})
+    // res.status(200).json({status:'Succes',data:order})
 })
 
 exports.filterOrderForLoggedUser = asyncHandler(async (req,res,next)=>{
@@ -117,7 +117,7 @@ const createCardOrder =async (session)=>{
 
     const cart = Cart.findById(cartId)
     const user = User.findById({email:session.customer_email})
-
+    console.log(`the card ${cartId} the user ${user.name} `);
      // 3- create order based on shipping methode "Cash"
      const order = await Order.create({
         user:user._id,
@@ -126,11 +126,12 @@ const createCardOrder =async (session)=>{
         totalOrderPrice:orderPrice,
         isPaid:true,
         paidAt:Date.now(),
-        paymentMethodType: 'card',
+        paymentMethod: 'card',
     })
 
     // 4- after create order increment sold product and decrement quantity product
     if(order){
+        console.log("yes order already");
         const bulkOption = cart.cartItems.map((item) =>({
             updateOne:{
                 filter:{_id:item.product},
@@ -179,7 +180,6 @@ exports.webhookCheckout = asyncHandler(async (req, res,next ) => {
     
     if (event.type === 'checkout.session.completed') {
     //  Create order
-    console.log(event.data.object);
     createCardOrder(event.data.object);
   }
 
