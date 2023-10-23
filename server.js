@@ -37,7 +37,7 @@ const app = express();
 
 // Enable other domains to access your application
 const corsConfig = {
-  origin: ["http://localhost:5173", "https://ecommerce-front-end-oj91.vercel.app/"],
+  origin: "https://ecommerce-front-end-oj91.vercel.app/",
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 };
